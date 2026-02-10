@@ -15,7 +15,7 @@ T _$identity<T>(T value) => value;
 /// @nodoc
 mixin _$User {
 
- int get id; String get username; String get email; String get firstName; String get lastName; String get image;
+ int get id; String get username; String get email; String get firstName; String get lastName; String get gender; String get image;
 /// Create a copy of User
 /// with the given fields replaced by the non-null parameter values.
 @JsonKey(includeFromJson: false, includeToJson: false)
@@ -28,16 +28,16 @@ $UserCopyWith<User> get copyWith => _$UserCopyWithImpl<User>(this as User, _$ide
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is User&&(identical(other.id, id) || other.id == id)&&(identical(other.username, username) || other.username == username)&&(identical(other.email, email) || other.email == email)&&(identical(other.firstName, firstName) || other.firstName == firstName)&&(identical(other.lastName, lastName) || other.lastName == lastName)&&(identical(other.image, image) || other.image == image));
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is User&&(identical(other.id, id) || other.id == id)&&(identical(other.username, username) || other.username == username)&&(identical(other.email, email) || other.email == email)&&(identical(other.firstName, firstName) || other.firstName == firstName)&&(identical(other.lastName, lastName) || other.lastName == lastName)&&(identical(other.gender, gender) || other.gender == gender)&&(identical(other.image, image) || other.image == image));
 }
 
 @JsonKey(includeFromJson: false, includeToJson: false)
 @override
-int get hashCode => Object.hash(runtimeType,id,username,email,firstName,lastName,image);
+int get hashCode => Object.hash(runtimeType,id,username,email,firstName,lastName,gender,image);
 
 @override
 String toString() {
-  return 'User(id: $id, username: $username, email: $email, firstName: $firstName, lastName: $lastName, image: $image)';
+  return 'User(id: $id, username: $username, email: $email, firstName: $firstName, lastName: $lastName, gender: $gender, image: $image)';
 }
 
 
@@ -48,7 +48,7 @@ abstract mixin class $UserCopyWith<$Res>  {
   factory $UserCopyWith(User value, $Res Function(User) _then) = _$UserCopyWithImpl;
 @useResult
 $Res call({
- int id, String username, String email, String firstName, String lastName, String image
+ int id, String username, String email, String firstName, String lastName, String gender, String image
 });
 
 
@@ -65,13 +65,14 @@ class _$UserCopyWithImpl<$Res>
 
 /// Create a copy of User
 /// with the given fields replaced by the non-null parameter values.
-@pragma('vm:prefer-inline') @override $Res call({Object? id = null,Object? username = null,Object? email = null,Object? firstName = null,Object? lastName = null,Object? image = null,}) {
+@pragma('vm:prefer-inline') @override $Res call({Object? id = null,Object? username = null,Object? email = null,Object? firstName = null,Object? lastName = null,Object? gender = null,Object? image = null,}) {
   return _then(_self.copyWith(
 id: null == id ? _self.id : id // ignore: cast_nullable_to_non_nullable
 as int,username: null == username ? _self.username : username // ignore: cast_nullable_to_non_nullable
 as String,email: null == email ? _self.email : email // ignore: cast_nullable_to_non_nullable
 as String,firstName: null == firstName ? _self.firstName : firstName // ignore: cast_nullable_to_non_nullable
 as String,lastName: null == lastName ? _self.lastName : lastName // ignore: cast_nullable_to_non_nullable
+as String,gender: null == gender ? _self.gender : gender // ignore: cast_nullable_to_non_nullable
 as String,image: null == image ? _self.image : image // ignore: cast_nullable_to_non_nullable
 as String,
   ));
@@ -155,10 +156,10 @@ return $default(_that);case _:
 /// }
 /// ```
 
-@optionalTypeArgs TResult maybeWhen<TResult extends Object?>(TResult Function( int id,  String username,  String email,  String firstName,  String lastName,  String image)?  $default,{required TResult orElse(),}) {final _that = this;
+@optionalTypeArgs TResult maybeWhen<TResult extends Object?>(TResult Function( int id,  String username,  String email,  String firstName,  String lastName,  String gender,  String image)?  $default,{required TResult orElse(),}) {final _that = this;
 switch (_that) {
 case _User() when $default != null:
-return $default(_that.id,_that.username,_that.email,_that.firstName,_that.lastName,_that.image);case _:
+return $default(_that.id,_that.username,_that.email,_that.firstName,_that.lastName,_that.gender,_that.image);case _:
   return orElse();
 
 }
@@ -176,10 +177,10 @@ return $default(_that.id,_that.username,_that.email,_that.firstName,_that.lastNa
 /// }
 /// ```
 
-@optionalTypeArgs TResult when<TResult extends Object?>(TResult Function( int id,  String username,  String email,  String firstName,  String lastName,  String image)  $default,) {final _that = this;
+@optionalTypeArgs TResult when<TResult extends Object?>(TResult Function( int id,  String username,  String email,  String firstName,  String lastName,  String gender,  String image)  $default,) {final _that = this;
 switch (_that) {
 case _User():
-return $default(_that.id,_that.username,_that.email,_that.firstName,_that.lastName,_that.image);}
+return $default(_that.id,_that.username,_that.email,_that.firstName,_that.lastName,_that.gender,_that.image);}
 }
 /// A variant of `when` that fallback to returning `null`
 ///
@@ -193,10 +194,10 @@ return $default(_that.id,_that.username,_that.email,_that.firstName,_that.lastNa
 /// }
 /// ```
 
-@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>(TResult? Function( int id,  String username,  String email,  String firstName,  String lastName,  String image)?  $default,) {final _that = this;
+@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>(TResult? Function( int id,  String username,  String email,  String firstName,  String lastName,  String gender,  String image)?  $default,) {final _that = this;
 switch (_that) {
 case _User() when $default != null:
-return $default(_that.id,_that.username,_that.email,_that.firstName,_that.lastName,_that.image);case _:
+return $default(_that.id,_that.username,_that.email,_that.firstName,_that.lastName,_that.gender,_that.image);case _:
   return null;
 
 }
@@ -208,7 +209,7 @@ return $default(_that.id,_that.username,_that.email,_that.firstName,_that.lastNa
 @JsonSerializable()
 
 class _User implements User {
-  const _User({required this.id, required this.username, required this.email, required this.firstName, required this.lastName, required this.image});
+  const _User({required this.id, required this.username, required this.email, required this.firstName, required this.lastName, required this.gender, required this.image});
   factory _User.fromJson(Map<String, dynamic> json) => _$UserFromJson(json);
 
 @override final  int id;
@@ -216,6 +217,7 @@ class _User implements User {
 @override final  String email;
 @override final  String firstName;
 @override final  String lastName;
+@override final  String gender;
 @override final  String image;
 
 /// Create a copy of User
@@ -231,16 +233,16 @@ Map<String, dynamic> toJson() {
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is _User&&(identical(other.id, id) || other.id == id)&&(identical(other.username, username) || other.username == username)&&(identical(other.email, email) || other.email == email)&&(identical(other.firstName, firstName) || other.firstName == firstName)&&(identical(other.lastName, lastName) || other.lastName == lastName)&&(identical(other.image, image) || other.image == image));
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is _User&&(identical(other.id, id) || other.id == id)&&(identical(other.username, username) || other.username == username)&&(identical(other.email, email) || other.email == email)&&(identical(other.firstName, firstName) || other.firstName == firstName)&&(identical(other.lastName, lastName) || other.lastName == lastName)&&(identical(other.gender, gender) || other.gender == gender)&&(identical(other.image, image) || other.image == image));
 }
 
 @JsonKey(includeFromJson: false, includeToJson: false)
 @override
-int get hashCode => Object.hash(runtimeType,id,username,email,firstName,lastName,image);
+int get hashCode => Object.hash(runtimeType,id,username,email,firstName,lastName,gender,image);
 
 @override
 String toString() {
-  return 'User(id: $id, username: $username, email: $email, firstName: $firstName, lastName: $lastName, image: $image)';
+  return 'User(id: $id, username: $username, email: $email, firstName: $firstName, lastName: $lastName, gender: $gender, image: $image)';
 }
 
 
@@ -251,7 +253,7 @@ abstract mixin class _$UserCopyWith<$Res> implements $UserCopyWith<$Res> {
   factory _$UserCopyWith(_User value, $Res Function(_User) _then) = __$UserCopyWithImpl;
 @override @useResult
 $Res call({
- int id, String username, String email, String firstName, String lastName, String image
+ int id, String username, String email, String firstName, String lastName, String gender, String image
 });
 
 
@@ -268,13 +270,14 @@ class __$UserCopyWithImpl<$Res>
 
 /// Create a copy of User
 /// with the given fields replaced by the non-null parameter values.
-@override @pragma('vm:prefer-inline') $Res call({Object? id = null,Object? username = null,Object? email = null,Object? firstName = null,Object? lastName = null,Object? image = null,}) {
+@override @pragma('vm:prefer-inline') $Res call({Object? id = null,Object? username = null,Object? email = null,Object? firstName = null,Object? lastName = null,Object? gender = null,Object? image = null,}) {
   return _then(_User(
 id: null == id ? _self.id : id // ignore: cast_nullable_to_non_nullable
 as int,username: null == username ? _self.username : username // ignore: cast_nullable_to_non_nullable
 as String,email: null == email ? _self.email : email // ignore: cast_nullable_to_non_nullable
 as String,firstName: null == firstName ? _self.firstName : firstName // ignore: cast_nullable_to_non_nullable
 as String,lastName: null == lastName ? _self.lastName : lastName // ignore: cast_nullable_to_non_nullable
+as String,gender: null == gender ? _self.gender : gender // ignore: cast_nullable_to_non_nullable
 as String,image: null == image ? _self.image : image // ignore: cast_nullable_to_non_nullable
 as String,
   ));

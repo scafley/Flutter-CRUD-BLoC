@@ -13,7 +13,7 @@ sealed class AuthResponse with _$AuthResponse {
     required String lastName,
     required String gender,
     required String image,
-    required String token,
+    @JsonKey(name: 'accessToken') required String token,
     required String refreshToken,
   }) = _AuthResponse;
 

@@ -11,6 +11,7 @@ sealed class User with _$User {
     required String email,
     required String firstName,
     required String lastName,
+    required String gender,
     required String image,
   }) = _User;
 

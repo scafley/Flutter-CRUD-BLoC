@@ -15,7 +15,7 @@ _AuthResponse _$AuthResponseFromJson(Map<String, dynamic> json) =>
       lastName: json['lastName'] as String,
       gender: json['gender'] as String,
       image: json['image'] as String,
-      token: json['token'] as String,
+      token: json['accessToken'] as String,
       refreshToken: json['refreshToken'] as String,
     );
 
@@ -28,6 +28,6 @@ Map<String, dynamic> _$AuthResponseToJson(_AuthResponse instance) =>
       'lastName': instance.lastName,
       'gender': instance.gender,
       'image': instance.image,
-      'token': instance.token,
+      'accessToken': instance.token,
       'refreshToken': instance.refreshToken,
     };

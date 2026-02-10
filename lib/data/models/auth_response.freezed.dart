@@ -15,7 +15,7 @@ T _$identity<T>(T value) => value;
 /// @nodoc
 mixin _$AuthResponse {
 
- int get id; String get username; String get email; String get firstName; String get lastName; String get gender; String get image; String get token; String get refreshToken;
+ int get id; String get username; String get email; String get firstName; String get lastName; String get gender; String get image;@JsonKey(name: 'accessToken') String get token; String get refreshToken;
 /// Create a copy of AuthResponse
 /// with the given fields replaced by the non-null parameter values.
 @JsonKey(includeFromJson: false, includeToJson: false)
@@ -48,7 +48,7 @@ abstract mixin class $AuthResponseCopyWith<$Res>  {
   factory $AuthResponseCopyWith(AuthResponse value, $Res Function(AuthResponse) _then) = _$AuthResponseCopyWithImpl;
 @useResult
 $Res call({
- int id, String username, String email, String firstName, String lastName, String gender, String image, String token, String refreshToken
+ int id, String username, String email, String firstName, String lastName, String gender, String image,@JsonKey(name: 'accessToken') String token, String refreshToken
 });
 
 
@@ -158,7 +158,7 @@ return $default(_that);case _:
 /// }
 /// ```
 
-@optionalTypeArgs TResult maybeWhen<TResult extends Object?>(TResult Function( int id,  String username,  String email,  String firstName,  String lastName,  String gender,  String image,  String token,  String refreshToken)?  $default,{required TResult orElse(),}) {final _that = this;
+@optionalTypeArgs TResult maybeWhen<TResult extends Object?>(TResult Function( int id,  String username,  String email,  String firstName,  String lastName,  String gender,  String image, @JsonKey(name: 'accessToken')  String token,  String refreshToken)?  $default,{required TResult orElse(),}) {final _that = this;
 switch (_that) {
 case _AuthResponse() when $default != null:
 return $default(_that.id,_that.username,_that.email,_that.firstName,_that.lastName,_that.gender,_that.image,_that.token,_that.refreshToken);case _:
@@ -179,7 +179,7 @@ return $default(_that.id,_that.username,_that.email,_that.firstName,_that.lastNa
 /// }
 /// ```
 
-@optionalTypeArgs TResult when<TResult extends Object?>(TResult Function( int id,  String username,  String email,  String firstName,  String lastName,  String gender,  String image,  String token,  String refreshToken)  $default,) {final _that = this;
+@optionalTypeArgs TResult when<TResult extends Object?>(TResult Function( int id,  String username,  String email,  String firstName,  String lastName,  String gender,  String image, @JsonKey(name: 'accessToken')  String token,  String refreshToken)  $default,) {final _that = this;
 switch (_that) {
 case _AuthResponse():
 return $default(_that.id,_that.username,_that.email,_that.firstName,_that.lastName,_that.gender,_that.image,_that.token,_that.refreshToken);}
@@ -196,7 +196,7 @@ return $default(_that.id,_that.username,_that.email,_that.firstName,_that.lastNa
 /// }
 /// ```
 
-@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>(TResult? Function( int id,  String username,  String email,  String firstName,  String lastName,  String gender,  String image,  String token,  String refreshToken)?  $default,) {final _that = this;
+@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>(TResult? Function( int id,  String username,  String email,  String firstName,  String lastName,  String gender,  String image, @JsonKey(name: 'accessToken')  String token,  String refreshToken)?  $default,) {final _that = this;
 switch (_that) {
 case _AuthResponse() when $default != null:
 return $default(_that.id,_that.username,_that.email,_that.firstName,_that.lastName,_that.gender,_that.image,_that.token,_that.refreshToken);case _:
@@ -211,7 +211,7 @@ return $default(_that.id,_that.username,_that.email,_that.firstName,_that.lastNa
 @JsonSerializable()
 
 class _AuthResponse implements AuthResponse {
-   _AuthResponse({required this.id, required this.username, required this.email, required this.firstName, required this.lastName, required this.gender, required this.image, required this.token, required this.refreshToken});
+   _AuthResponse({required this.id, required this.username, required this.email, required this.firstName, required this.lastName, required this.gender, required this.image, @JsonKey(name: 'accessToken') required this.token, required this.refreshToken});
   factory _AuthResponse.fromJson(Map<String, dynamic> json) => _$AuthResponseFromJson(json);
 
 @override final  int id;
@@ -221,7 +221,7 @@ class _AuthResponse implements AuthResponse {
 @override final  String lastName;
 @override final  String gender;
 @override final  String image;
-@override final  String token;
+@override@JsonKey(name: 'accessToken') final  String token;
 @override final  String refreshToken;
 
 /// Create a copy of AuthResponse
@@ -257,7 +257,7 @@ abstract mixin class _$AuthResponseCopyWith<$Res> implements $AuthResponseCopyWi
   factory _$AuthResponseCopyWith(_AuthResponse value, $Res Function(_AuthResponse) _then) = __$AuthResponseCopyWithImpl;
 @override @useResult
 $Res call({
- int id, String username, String email, String firstName, String lastName, String gender, String image, String token, String refreshToken
+ int id, String username, String email, String firstName, String lastName, String gender, String image,@JsonKey(name: 'accessToken') String token, String refreshToken
 });
 
 

@@ -54,7 +54,7 @@ class HomeScreen extends StatelessWidget {
 
                   FilledButton(
                     onPressed: () {
-                      context.go('/products');
+                      context.push('/products');
                     },
                     child: Text("Products"),
                     style: FilledButton.styleFrom(

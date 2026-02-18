@@ -1,5 +1,3 @@
-import 'dart:convert';
-
 import 'package:dio/dio.dart';
 import 'package:flutter_crud/data/models/auth_response.dart';
 import 'package:flutter_crud/data/models/user.dart';

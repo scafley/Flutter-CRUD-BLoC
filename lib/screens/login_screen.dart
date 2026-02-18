@@ -7,7 +7,6 @@ class LoginScreen extends StatefulWidget {
 
   @override
   State<LoginScreen> createState() {
-    print('🟢 [LoginScreen] createState()');
     return _LoginScreenState();
   }
 }
@@ -19,45 +18,22 @@ class _LoginScreenState extends State<LoginScreen> {
   @override
   void initState() {
     super.initState();
-    print('🟢 [LoginScreen] initState()');
   }
 
   @override
   void dispose() {
-    print('🔴 [LoginScreen] dispose() - START');
-    print('🔴 [LoginScreen] mounted: $mounted');
-
-    try {
-      _usernameController.dispose();
-      print('🔴 [LoginScreen] username controller disposed');
-    } catch (e) {
-      print('❌ [LoginScreen] Error disposing username controller: $e');
-    }
-
-    try {
-      _passwordController.dispose();
-      print('🔴 [LoginScreen] password controller disposed');
-    } catch (e) {
-      print('❌ [LoginScreen] Error disposing password controller: $e');
-    }
-
-    print('🔴 [LoginScreen] dispose() - calling super.dispose()');
+    _usernameController.dispose();
+    _passwordController.dispose();
     super.dispose();
-    print('🔴 [LoginScreen] dispose() - END');
   }
 
   @override
   Widget build(BuildContext context) {
-    print('🔵 [LoginScreen] build()');
-
     return Scaffold(
       body: BlocConsumer<AuthBloc, AuthState>(
         listener: (context, state) {
-          print('👂 [LoginScreen] Listener - state: ${state.runtimeType}');
-
           if (state is AuthError) {
             if (!mounted) {
-              print('⚠️ [LoginScreen] Not mounted, skipping SnackBar');
               return;
             }
 
@@ -70,7 +46,6 @@ class _LoginScreenState extends State<LoginScreen> {
           }
         },
         builder: (context, state) {
-          print('🏗️ [LoginScreen] Builder - state: ${state.runtimeType}');
           final isLoading = state is AuthLoading;
 
           return Padding(
@@ -164,13 +139,11 @@ class _LoginScreenState extends State<LoginScreen> {
   }
 
   void _onLoginPressed() {
-    print('🔘 [LoginScreen] Login button pressed');
     final username = _usernameController.text.trim();
     final password = _passwordController.text.trim();
 
     if (username.isEmpty || password.isEmpty) {
       if (!mounted) {
-        print('⚠️ [LoginScreen] Not mounted, skipping validation SnackBar');
         return;
       }
 

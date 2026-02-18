@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:go_router/go_router.dart';
 import '../bloc/auth/auth_bloc.dart';
 import '../data/models/auth_response.dart';
 
@@ -15,47 +16,67 @@ class HomeScreen extends StatelessWidget {
       body: Center(
         child: Padding(
           padding: const EdgeInsets.all(24.0),
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.center,
+          child: ListView(
             children: [
-              // Avatar
-              CircleAvatar(
-                radius: 60,
-                backgroundImage: NetworkImage(authResponse.image),
-                backgroundColor: Colors.grey,
-              ),
-              const SizedBox(height: 24),
-              // User Info
-              Card(
-                child: Padding(
-                  padding: const EdgeInsets.all(16.0),
-                  child: Column(
-                    children: [
-                      _InfoRow(
-                        label: 'Name',
-                        value:
-                            '${authResponse.firstName} ${authResponse.lastName}',
+              Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  // Avatar
+                  CircleAvatar(
+                    radius: 60,
+                    backgroundImage: NetworkImage(authResponse.image),
+                    backgroundColor: Colors.grey,
+                  ),
+                  const SizedBox(height: 24),
+                  // User Info
+                  Card(
+                    child: Padding(
+                      padding: const EdgeInsets.all(16.0),
+                      child: Column(
+                        children: [
+                          _InfoRow(
+                            label: 'Name',
+                            value:
+                                '${authResponse.firstName} ${authResponse.lastName}',
+                          ),
+                          const Divider(),
+                          _InfoRow(
+                            label: 'Username',
+                            value: authResponse.username,
+                          ),
+                          const Divider(),
+                          _InfoRow(label: 'Email', value: authResponse.email),
+                        ],
                       ),
-                      const Divider(),
-                      _InfoRow(label: 'Username', value: authResponse.username),
-                      const Divider(),
-                      _InfoRow(label: 'Email', value: authResponse.email),
-                    ],
+                    ),
                   ),
-                ),
-              ),
-              const SizedBox(height: 32),
-              // Logout Button
-              ElevatedButton(
-                onPressed: () => _showLogoutDialog(context),
-                style: ElevatedButton.styleFrom(
-                  padding: const EdgeInsets.symmetric(
-                    horizontal: 32,
-                    vertical: 16,
-                  ),
-                ),
+                  const SizedBox(height: 32),
 
-                child: const Text('Logout'),
+                  FilledButton(
+                    onPressed: () {
+                      context.go('/products');
+                    },
+                    child: Text("Products"),
+                    style: FilledButton.styleFrom(
+                      padding: EdgeInsets.symmetric(
+                        horizontal: 32,
+                        vertical: 16,
+                      ),
+                    ),
+                  ),
+                  // Logout Button
+                  ElevatedButton(
+                    onPressed: () => _showLogoutDialog(context),
+                    style: ElevatedButton.styleFrom(
+                      padding: const EdgeInsets.symmetric(
+                        horizontal: 32,
+                        vertical: 16,
+                      ),
+                    ),
+
+                    child: const Text('Logout'),
+                  ),
+                ],
               ),
             ],
           ),

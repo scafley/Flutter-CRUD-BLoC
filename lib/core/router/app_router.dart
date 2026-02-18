@@ -2,6 +2,7 @@
 
 import 'dart:async';
 import 'package:flutter/material.dart';
+import 'package:flutter_crud/screens/products_screen.dart';
 import 'package:flutter_crud/screens/splash_screen.dart';
 import 'package:go_router/go_router.dart';
 
@@ -80,6 +81,13 @@ class AppRouter {
           }
 
           return MaterialPage(key: state.pageKey, child: const LoginScreen());
+        },
+      ),
+
+      GoRoute(
+        path: '/products',
+        pageBuilder: (context, state) {
+          return MaterialPage(child: ProductsScreen());
         },
       ),
     ],

@@ -11,7 +11,7 @@ class ProductRepository {
     try {
       final res = await apiService.get('/products');
 
-      final List<Product> productsJson = res['products'];
+      final List<dynamic> productsJson = res['products'];
       final products = productsJson
           .map((json) => Product.fromJson(json as Map<String, dynamic>))
           .toList();
@@ -21,6 +21,36 @@ class ProductRepository {
       throw _handleDioError(e);
     } catch (err) {
       throw Exception('Failed to load products: $err');
+    }
+  }
+
+  Future<Product> getProductById(int id) async {
+    try {
+      final res = await apiService.get('products/$id');
+
+      return Product.fromJson(res);
+    } on DioException catch (e) {
+      throw _handleDioError(e);
+    } catch (err) {
+      throw Exception('Failed to load product: $err');
+    }
+  }
+
+  Future<List<Product>> searchProducts(String query) async {
+    try {
+      final res = await apiService.get('/products/search?q=$query');
+
+      final List<dynamic> productsJson = res['products'];
+
+      final products = productsJson
+          .map((json) => Product.fromJson(json as Map<String, dynamic>))
+          .toList();
+
+      return products;
+    } on DioException catch (e) {
+      throw _handleDioError(e);
+    } catch (err) {
+      throw Exception('Failed to search products: $err');
     }
   }
 

@@ -10,6 +10,7 @@ sealed class Product with _$Product {
     required String title,
     required double price,
     required String thumbnail,
+    String? description,
     String? category,
   }) = _Product;
 

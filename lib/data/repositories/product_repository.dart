@@ -26,7 +26,7 @@ class ProductRepository {
 
   Future<Product> getProductById(int id) async {
     try {
-      final res = await apiService.get('products/$id');
+      final res = await apiService.get('/products/$id');
 
       return Product.fromJson(res);
     } on DioException catch (e) {

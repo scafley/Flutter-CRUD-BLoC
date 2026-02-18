@@ -13,6 +13,7 @@ class ProductBloc extends Bloc<ProductEvent, ProductState> {
 
   ProductBloc({required this.productRepository}) : super(ProductInitial()) {
     on<LoadProductsEvent>(_onLoadProducts);
+    on<LoadProductByIdEvent>(_onLoadProductById);
   }
 
   Future<void> _onLoadProducts(
@@ -23,6 +24,20 @@ class ProductBloc extends Bloc<ProductEvent, ProductState> {
     try {
       final products = await productRepository.getProducts();
       emit(ProductState.productsLoaded(products));
+    } catch (err) {
+      emit(ProductState.error(err.toString()));
+    }
+  }
+
+  Future<void> _onLoadProductById(
+    LoadProductByIdEvent event,
+    Emitter<ProductState> emit,
+  ) async {
+    emit(ProductState.loading());
+
+    try {
+      final product = await productRepository.getProductById(event.id);
+      emit(ProductState.productLoaded(product));
     } catch (err) {
       emit(ProductState.error(err.toString()));
     }

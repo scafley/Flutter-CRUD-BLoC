@@ -6,6 +6,7 @@ import 'package:flutter_crud/data/models/product.dart';
 import 'package:flutter_crud/data/repositories/product_repository.dart';
 import 'package:flutter_crud/data/services/api_service.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
+import 'package:go_router/go_router.dart';
 
 class ProductsScreen extends StatelessWidget {
   const ProductsScreen({super.key});
@@ -70,12 +71,7 @@ class _ProductsView extends StatelessWidget {
                       ),
                       child: InkWell(
                         onTap: () {
-                          ScaffoldMessenger.of(context).showSnackBar(
-                            SnackBar(
-                              content: Text('Clicked: ${product.title}'),
-                              duration: const Duration(seconds: 1),
-                            ),
-                          );
+                          context.push('/products/${product.id}');
                         },
                         child: Column(
                           mainAxisAlignment: MainAxisAlignment.center,

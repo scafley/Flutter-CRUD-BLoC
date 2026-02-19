@@ -68,10 +68,12 @@ class _LoginScreenState extends State<LoginScreen> {
                       TextField(
                         controller: _usernameController,
                         enabled: !isLoading,
+                        autocorrect: false,
                         decoration: const InputDecoration(
                           labelText: 'Username',
                           hintText: 'Username',
                           prefixIcon: Icon(Icons.person),
+
                           border: OutlineInputBorder(),
                         ),
                       ),

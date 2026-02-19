@@ -1,11 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:flutter_secure_storage/flutter_secure_storage.dart';
+import 'package:flutter_crud/bloc/product/product_bloc.dart';
+import 'package:flutter_crud/core/di/instances.dart';
 
 import 'bloc/auth/auth_bloc.dart';
 import 'core/router/app_router.dart';
-import 'data/repositories/auth_repository.dart';
-import 'data/services/api_service.dart';
 
 void main() {
   runApp(const MyApp());
@@ -21,20 +20,15 @@ class MyApp extends StatefulWidget {
 class _MyAppState extends State<MyApp> {
   late final AuthBloc _authBloc;
   late final AppRouter _appRouter;
-
+  late final ProductBloc _productBloc;
   @override
   void initState() {
     super.initState();
 
-    const storage = FlutterSecureStorage();
-    final apiService = ApiService(secStorage: storage);
-    final authRepository = AuthRepository(
-      apiService: apiService,
-      secStorage: storage,
-    );
-
     _authBloc = AuthBloc(authRepository: authRepository);
     _appRouter = AppRouter(_authBloc);
+    _productBloc = ProductBloc(productRepository: productRepository);
+
     _authBloc.add(const AuthEvent.checkAuthStatus());
   }
 
@@ -46,8 +40,11 @@ class _MyAppState extends State<MyApp> {
 
   @override
   Widget build(BuildContext context) {
-    return BlocProvider.value(
-      value: _authBloc,
+    return MultiBlocProvider(
+      providers: [
+        BlocProvider.value(value: _authBloc),
+        BlocProvider.value(value: _productBloc),
+      ],
       child: MaterialApp.router(
         title: 'Flutter CRUD App',
         debugShowCheckedModeBanner: false,

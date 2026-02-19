@@ -5,4 +5,11 @@ sealed class ProductEvent with _$ProductEvent {
   const factory ProductEvent.loadProducts() = LoadProductsEvent;
 
   const factory ProductEvent.loadProductById(int id) = LoadProductByIdEvent;
+
+  const factory ProductEvent.addProduct(Product product) = AddProductEvent;
+
+  const factory ProductEvent.updateProduct(Product product) =
+      UpdateProductEvent;
+
+  const factory ProductEvent.deleteProduct(int id) = DeleteProductEvent;
 }

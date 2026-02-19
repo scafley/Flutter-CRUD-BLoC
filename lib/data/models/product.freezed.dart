@@ -208,13 +208,13 @@ return $default(_that.id,_that.title,_that.price,_that.thumbnail,_that.descripti
 @JsonSerializable()
 
 class _Product implements Product {
-   _Product({required this.id, required this.title, required this.price, required this.thumbnail, this.description, this.category});
+   _Product({required this.id, required this.title, required this.price, this.thumbnail = 'https://via.placeholder.com/200', this.description, this.category});
   factory _Product.fromJson(Map<String, dynamic> json) => _$ProductFromJson(json);
 
 @override final  int id;
 @override final  String title;
 @override final  double price;
-@override final  String thumbnail;
+@override@JsonKey() final  String thumbnail;
 @override final  String? description;
 @override final  String? category;
 

@@ -9,7 +9,7 @@ sealed class Product with _$Product {
     required int id,
     required String title,
     required double price,
-    required String thumbnail,
+    @Default('https://via.placeholder.com/200') String thumbnail,
     String? description,
     String? category,
   }) = _Product;

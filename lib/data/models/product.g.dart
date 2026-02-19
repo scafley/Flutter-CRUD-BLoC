@@ -10,7 +10,7 @@ _Product _$ProductFromJson(Map<String, dynamic> json) => _Product(
   id: (json['id'] as num).toInt(),
   title: json['title'] as String,
   price: (json['price'] as num).toDouble(),
-  thumbnail: json['thumbnail'] as String,
+  thumbnail: json['thumbnail'] as String? ?? 'https://via.placeholder.com/200',
   description: json['description'] as String?,
   category: json['category'] as String?,
 );

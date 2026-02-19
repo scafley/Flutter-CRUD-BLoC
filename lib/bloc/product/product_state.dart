@@ -10,5 +10,11 @@ sealed class ProductState with _$ProductState {
 
   const factory ProductState.productLoaded(Product product) = ProductLoaded;
 
+  const factory ProductState.productAdded(Product product) = ProductAdded;
+
+  const factory ProductState.productUpdated(Product product) = ProductUpdated;
+
+  const factory ProductState.productDeleted(int id) = ProductDeleted;
+
   const factory ProductState.error(String err) = ProductError;
 }

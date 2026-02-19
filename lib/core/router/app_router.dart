@@ -2,6 +2,9 @@
 
 import 'dart:async';
 import 'package:flutter/material.dart';
+import 'package:flutter_crud/data/models/product.dart';
+import 'package:flutter_crud/screens/add_product_screen.dart';
+import 'package:flutter_crud/screens/edit_product_screen.dart';
 import 'package:flutter_crud/screens/product_detail_screen.dart';
 import 'package:flutter_crud/screens/products_screen.dart';
 import 'package:flutter_crud/screens/splash_screen.dart';
@@ -25,33 +28,32 @@ class AppRouter {
       final isLoading = authState is AuthLoading || authState is AuthInitial;
       final currentPath = state.matchedLocation;
 
-      print('🔍 [Router] State: ${authState.runtimeType}, Path: $currentPath');
+      print('Router state: ${authState.runtimeType}, path: $currentPath');
 
-      // Loading states → splash
       if (isLoading) {
         if (currentPath != '/splash') {
-          print('🔍 [Router] Redirect → /splash (loading)');
+          print('Redirect to /splash (loading)');
           return '/splash';
         }
         return null; // Already on splash
       }
 
-      // Authenticated → home
+      // Authenticated
       if (isAuthenticated) {
         if (currentPath == '/splash' || currentPath == '/login') {
-          print('🔍 [Router] Redirect → /home (authenticated)');
+          print('Redirect to /home (authenticated)');
           return '/home';
         }
-        return null; // Already on authenticated page
+        return null;
       }
 
-      // Unauthenticated → login
+      // Unauthenticated
       if (currentPath == '/splash' || currentPath == '/home') {
-        print('🔍 [Router] Redirect → /login (unauthenticated)');
+        print('Redirect to /login (unauthenticated)');
         return '/login';
       }
 
-      return null; // Already on login or other public page
+      return null;
     },
 
     // Refresh router when auth state changes
@@ -92,11 +94,26 @@ class AppRouter {
         },
       ),
       GoRoute(
+        path: '/products/add',
+        pageBuilder: (context, state) {
+          return MaterialPage(child: AddProductScreen());
+        },
+      ),
+      GoRoute(
         path: '/products/:id',
         name: 'product-detail',
         pageBuilder: (context, state) {
           final id = state.pathParameters['id']!;
           return MaterialPage(child: ProductDetailScreen(productId: id));
+        },
+      ),
+
+      GoRoute(
+        path: '/products/:id/edit',
+        name: 'edit-product',
+        builder: (context, state) {
+          final product = state.extra as Product;
+          return EditProductScreen(product: product);
         },
       ),
     ],
@@ -114,11 +131,11 @@ class GoRouterRefreshStream extends ChangeNotifier {
     notifyListeners();
     _subscription = stream.asBroadcastStream().listen(
       (event) {
-        print('Router Auth state changed, refreshing routes...');
+        print('Router auth state changed - refreshing routes');
         notifyListeners();
       },
       onError: (error) {
-        print('Router Stream error: $error');
+        print('Router stream error: $error');
       },
     );
   }

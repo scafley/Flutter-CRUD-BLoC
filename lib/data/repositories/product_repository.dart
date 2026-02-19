@@ -54,6 +54,57 @@ class ProductRepository {
     }
   }
 
+  Future<Product> addProduct(Product product) async {
+    try {
+      final res = await apiService.post(
+        '/product/add',
+        data: {
+          'title': product.title,
+          'description': product.description,
+          'price': product.price,
+          'category': product.category,
+          'thumbnail': product.thumbnail,
+        },
+      );
+      return Product.fromJson(res);
+    } on DioException catch (err) {
+      throw _handleDioError(err);
+    } catch (err) {
+      throw Exception('Failed to add new product. $err');
+    }
+  }
+
+  Future<Product> updateProduct(Product product) async {
+    try {
+      final res = await apiService.put(
+        '/products/${product.id}',
+        data: {
+          'title': product.title,
+          'price': product.price,
+          'description': product.description,
+          'category': product.category,
+          'thumbnail': product.thumbnail,
+        },
+      );
+
+      return Product.fromJson(res);
+    } on DioException catch (err) {
+      throw _handleDioError(err);
+    } catch (err) {
+      throw Exception('Failed to update product. $err');
+    }
+  }
+
+  Future<void> deleteProduct(int id) async {
+    try {
+      await apiService.delete('/products/$id');
+    } on DioException catch (err) {
+      throw _handleDioError(err);
+    } catch (err) {
+      throw Exception("Failed to delete product. $err");
+    }
+  }
+
   String _handleDioError(DioException error) {
     switch (error.type) {
       case DioExceptionType.connectionTimeout:

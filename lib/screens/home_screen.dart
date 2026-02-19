@@ -1,3 +1,4 @@
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
@@ -14,71 +15,75 @@ class HomeScreen extends StatelessWidget {
     return Scaffold(
       appBar: AppBar(title: const Text('Home Screen'), centerTitle: true),
       body: Center(
-        child: Padding(
-          padding: const EdgeInsets.all(24.0),
-          child: ListView(
-            children: [
-              Column(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  // Avatar
-                  CircleAvatar(
-                    radius: 60,
-                    backgroundImage: NetworkImage(authResponse.image),
-                    backgroundColor: Colors.grey,
-                  ),
-                  const SizedBox(height: 24),
-                  // User Info
-                  Card(
-                    child: Padding(
-                      padding: const EdgeInsets.all(16.0),
-                      child: Column(
-                        children: [
-                          _InfoRow(
-                            label: 'Name',
-                            value:
-                                '${authResponse.firstName} ${authResponse.lastName}',
-                          ),
-                          const Divider(),
-                          _InfoRow(
-                            label: 'Username',
-                            value: authResponse.username,
-                          ),
-                          const Divider(),
-                          _InfoRow(label: 'Email', value: authResponse.email),
-                        ],
+        child: Container(
+          constraints: BoxConstraints(maxWidth: kIsWeb ? 600 : double.infinity),
+          child: Padding(
+            padding: const EdgeInsets.all(24.0),
+            child: ListView(
+              children: [
+                Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    // Avatar
+                    CircleAvatar(
+                      radius: 60,
+                      backgroundImage: NetworkImage(authResponse.image),
+                      backgroundColor: Colors.grey,
+                    ),
+                    const SizedBox(height: 24),
+                    // User Info
+                    Card(
+                      child: Padding(
+                        padding: const EdgeInsets.all(16.0),
+                        child: Column(
+                          children: [
+                            _InfoRow(
+                              label: 'Name',
+                              value:
+                                  '${authResponse.firstName} ${authResponse.lastName}',
+                            ),
+                            const Divider(),
+                            _InfoRow(
+                              label: 'Username',
+                              value: authResponse.username,
+                            ),
+                            const Divider(),
+                            _InfoRow(label: 'Email', value: authResponse.email),
+                          ],
+                        ),
                       ),
                     ),
-                  ),
-                  const SizedBox(height: 32),
+                    const SizedBox(height: 32),
 
-                  FilledButton(
-                    onPressed: () {
-                      context.push('/products');
-                    },
-                    child: Text("Products"),
-                    style: FilledButton.styleFrom(
-                      padding: EdgeInsets.symmetric(
-                        horizontal: 32,
-                        vertical: 16,
+                    FilledButton(
+                      onPressed: () {
+                        context.push('/products');
+                      },
+                      style: FilledButton.styleFrom(
+                        padding: EdgeInsets.symmetric(
+                          horizontal: 32,
+                          vertical: 16,
+                        ),
                       ),
+                      child: Text("Products"),
                     ),
-                  ),
-                  // Logout Button
-                  ElevatedButton(
-                    onPressed: () => _showLogoutDialog(context),
-                    style: ElevatedButton.styleFrom(
-                      padding: const EdgeInsets.symmetric(
-                        horizontal: 32,
-                        vertical: 16,
+                    const SizedBox(height: 32),
+                    // Logout Button
+                    ElevatedButton(
+                      onPressed: () => _showLogoutDialog(context),
+                      style: ElevatedButton.styleFrom(
+                        padding: const EdgeInsets.symmetric(
+                          horizontal: 32,
+                          vertical: 16,
+                        ),
                       ),
-                    ),
 
-                    child: const Text('Logout'),
-                  ),
-                ],
-              ),
-            ],
+                      child: const Text('Logout'),
+                    ),
+                  ],
+                ),
+              ],
+            ),
           ),
         ),
       ),

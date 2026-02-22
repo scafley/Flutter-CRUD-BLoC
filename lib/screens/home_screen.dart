@@ -1,6 +1,7 @@
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_crud/bloc/product/product_bloc.dart';
 import 'package:go_router/go_router.dart';
 import '../bloc/auth/auth_bloc.dart';
 import '../data/models/auth_response.dart';
@@ -104,6 +105,7 @@ class HomeScreen extends StatelessWidget {
           TextButton(
             onPressed: () {
               Navigator.pop(dialogContext);
+              context.read<ProductBloc>().add(const ProductEvent.reset());
               context.read<AuthBloc>().add(const AuthEvent.logout());
             },
             child: const Text('Logout'),

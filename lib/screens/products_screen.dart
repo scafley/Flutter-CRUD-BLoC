@@ -3,6 +3,7 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_crud/bloc/product/product_bloc.dart';
+import 'package:flutter_crud/data/models/product.dart';
 import 'package:go_router/go_router.dart';
 
 class ProductsScreen extends StatelessWidget {
@@ -48,7 +49,24 @@ class _ProductsView extends StatelessWidget {
                 productUpdated: (_) => SizedBox(),
                 productsLoaded: (products) {
                   if (products.isEmpty) {
-                    return Center(child: Text("No products found"));
+                    return Center(
+                      child: Column(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          Text("No products found"),
+                          SizedBox(height: 16),
+                          ElevatedButton.icon(
+                            onPressed: () {
+                              context.read<ProductBloc>().add(
+                                const ProductEvent.loadProducts(),
+                              );
+                            },
+                            icon: const Icon(Icons.refresh),
+                            label: const Text('Refresh'),
+                          ),
+                        ],
+                      ),
+                    );
                   }
                   return RefreshIndicator(
                     onRefresh: () async {

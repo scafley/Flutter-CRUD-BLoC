@@ -45,14 +45,23 @@ class _MyAppState extends State<MyApp> {
         BlocProvider.value(value: _authBloc),
         BlocProvider.value(value: _productBloc),
       ],
-      child: MaterialApp.router(
-        title: 'Flutter CRUD App',
-        debugShowCheckedModeBanner: false,
-        theme: ThemeData(
-          colorScheme: ColorScheme.fromSeed(seedColor: Colors.blue),
-          useMaterial3: true,
+      child: BlocListener<AuthBloc, AuthState>(
+        listener: (context, state) {
+          state.whenOrNull(
+            unauthenticated: () {
+              _productBloc.add(const ProductEvent.reset());
+            },
+          );
+        },
+        child: MaterialApp.router(
+          title: 'Flutter CRUD App',
+          debugShowCheckedModeBanner: false,
+          theme: ThemeData(
+            colorScheme: ColorScheme.fromSeed(seedColor: Colors.blue),
+            useMaterial3: true,
+          ),
+          routerConfig: _appRouter.router,
         ),
-        routerConfig: _appRouter.router,
       ),
     );
   }

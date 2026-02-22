@@ -12,4 +12,6 @@ sealed class ProductEvent with _$ProductEvent {
       UpdateProductEvent;
 
   const factory ProductEvent.deleteProduct(int id) = DeleteProductEvent;
+
+  const factory ProductEvent.reset() = ResetProductsEvent;
 }

@@ -17,6 +17,7 @@ class ProductBloc extends Bloc<ProductEvent, ProductState> {
     on<AddProductEvent>(_onAddProduct);
     on<UpdateProductEvent>(_onUpdateProduct);
     on<DeleteProductEvent>(_onDeleteProduct);
+    on<ResetProductsEvent>(_onReset);
   }
 
   Future<void> _onLoadProducts(
@@ -89,5 +90,13 @@ class ProductBloc extends Bloc<ProductEvent, ProductState> {
     } catch (err) {
       emit(ProductState.error(err.toString()));
     }
+  }
+
+  Future<void> _onReset(
+    ResetProductsEvent event,
+    Emitter<ProductState> emit,
+  ) async {
+    print("reset");
+    emit(const ProductState.initial());
   }
 }

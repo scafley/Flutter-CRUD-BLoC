@@ -111,7 +111,7 @@ class _LoginScreenState extends State<LoginScreen> {
                         textAlign: TextAlign.center,
                         text: TextSpan(
                           text:
-                              "(This Flutter App use dummyjson API)\n\nTest credentials:\n\nUsername: ",
+                              "(This Flutter App uses dummyjson API)\n\nTest credentials:\n\nUsername: ",
                           style: TextStyle(
                             color: Colors.grey[600],
                             fontSize: 12,

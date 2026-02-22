@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
@@ -16,21 +18,80 @@ class ProductsScreen extends StatelessWidget {
   }
 }
 
-class _ProductsView extends StatelessWidget {
+class _ProductsView extends StatefulWidget {
   const _ProductsView();
+
+  @override
+  State<_ProductsView> createState() => _ProductsViewState();
+}
+
+class _ProductsViewState extends State<_ProductsView> {
+  final _searchController = TextEditingController();
+  Timer? _debounce;
+  bool _isSearching = false;
+
+  @override
+  void initState() {
+    super.initState();
+  }
+
+  @override
+  void dispose() {
+    _searchController.dispose();
+    _debounce?.cancel();
+    super.dispose();
+  }
+
+  void _onSearchChanged(String query) {
+    _debounce?.cancel();
+
+    _debounce = Timer(const Duration(milliseconds: 300), () {
+      context.read<ProductBloc>().add(ProductEvent.searchProducts(query));
+    });
+  }
+
+  void _toggleSearch() {
+    setState(() {
+      _isSearching = !_isSearching;
+      if (!_isSearching) {
+        _searchController.clear();
+        context.read<ProductBloc>().add(const ProductEvent.loadProducts());
+      }
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Products'),
+        title: _isSearching
+            ? TextField(
+                controller: _searchController,
+                autofocus: true,
+                style: const TextStyle(color: Colors.black),
+                decoration: const InputDecoration(
+                  hintText: 'Search products...',
+                  hintStyle: TextStyle(color: Colors.white70),
+                  border: InputBorder.none,
+                ),
+                onChanged: _onSearchChanged,
+              )
+            : const Text('Products'),
         actions: [
-          // IconButton(
-          //   icon: const Icon(Icons.search),
-          //   onPressed: () {
-          //     // TODO: Search (później)
-          //   },
-          // ),
+          if (_isSearching)
+            IconButton(
+              icon: const Icon(Icons.clear),
+              onPressed: () {
+                _searchController.clear();
+                context.read<ProductBloc>().add(
+                  const ProductEvent.loadProducts(),
+                );
+              },
+            ),
+          IconButton(
+            icon: Icon(_isSearching ? Icons.search_off : Icons.search),
+            onPressed: _toggleSearch,
+          ),
         ],
       ),
       floatingActionButton: FloatingActionButton(

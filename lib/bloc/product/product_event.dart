@@ -14,4 +14,6 @@ sealed class ProductEvent with _$ProductEvent {
   const factory ProductEvent.deleteProduct(int id) = DeleteProductEvent;
 
   const factory ProductEvent.reset() = ResetProductsEvent;
+
+  const factory ProductEvent.searchProducts(String query) = SearchProductsEvent;
 }

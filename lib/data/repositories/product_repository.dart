@@ -7,9 +7,12 @@ class ProductRepository {
 
   ProductRepository({required this.apiService});
 
-  Future<List<Product>> getProducts() async {
+  Future<List<Product>> getProducts({int limit = 10, int skip = 0}) async {
     try {
-      final res = await apiService.get('/products');
+      final res = await apiService.get(
+        '/products',
+        queryParameters: {'limit': limit, 'skip': skip},
+      );
 
       final List<dynamic> productsJson = res['products'];
       final products = productsJson
@@ -92,6 +95,30 @@ class ProductRepository {
       throw _handleDioError(err);
     } catch (err) {
       throw Exception('Failed to update product. $err');
+    }
+  }
+
+  Future<List<String>> getCategories() async {
+    try {
+      final res = await apiService.get('/products/category-list');
+
+      return List<String>.from(res);
+    } on DioException catch (err) {
+      throw _handleDioError(err);
+    } catch (err) {
+      throw Exception("Failed to get categoris. $err");
+    }
+  }
+
+  Future<List<Product>> getProductsByCategory(String category) async {
+    try {
+      final res = await apiService.get('/products/category/$category');
+      final List<dynamic> productsJson = res['products'];
+      return productsJson.map((json) => Product.fromJson(json)).toList();
+    } on DioException catch (err) {
+      throw _handleDioError(err);
+    } catch (err) {
+      throw Exception("Failed to get products from $category. $err");
     }
   }
 

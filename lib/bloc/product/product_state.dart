@@ -4,9 +4,12 @@ part of 'product_bloc.dart';
 sealed class ProductState with _$ProductState {
   const factory ProductState.initial() = ProductInitial;
   const factory ProductState.loading() = ProductLoading;
+  const factory ProductState.loadingMore() = ProductLoadingMore;
 
-  const factory ProductState.productsLoaded(List<Product> products) =
-      ProductsLoaded;
+  const factory ProductState.productsLoaded(
+    List<Product> products, {
+    @Default(true) bool hasMore,
+  }) = ProductsLoaded;
 
   const factory ProductState.productLoaded(Product product) = ProductLoaded;
 

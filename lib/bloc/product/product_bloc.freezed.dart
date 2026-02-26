@@ -61,17 +61,20 @@ extension ProductEventPatterns on ProductEvent {
 /// }
 /// ```
 
-@optionalTypeArgs TResult maybeMap<TResult extends Object?>({TResult Function( LoadProductsEvent value)?  loadProducts,TResult Function( LoadProductByIdEvent value)?  loadProductById,TResult Function( AddProductEvent value)?  addProduct,TResult Function( UpdateProductEvent value)?  updateProduct,TResult Function( DeleteProductEvent value)?  deleteProduct,TResult Function( ResetProductsEvent value)?  reset,TResult Function( SearchProductsEvent value)?  searchProducts,required TResult orElse(),}){
+@optionalTypeArgs TResult maybeMap<TResult extends Object?>({TResult Function( LoadProductsEvent value)?  loadProducts,TResult Function( LoadProductByIdEvent value)?  loadProductById,TResult Function( LoadMoreProductsEvent value)?  loadMoreProducts,TResult Function( AddProductEvent value)?  addProduct,TResult Function( UpdateProductEvent value)?  updateProduct,TResult Function( DeleteProductEvent value)?  deleteProduct,TResult Function( ResetProductsEvent value)?  reset,TResult Function( SearchProductsEvent value)?  searchProducts,TResult Function( LoadCategoriesEvent value)?  loadCategories,TResult Function( FilterByCategoryEvent value)?  filterByCategory,required TResult orElse(),}){
 final _that = this;
 switch (_that) {
 case LoadProductsEvent() when loadProducts != null:
 return loadProducts(_that);case LoadProductByIdEvent() when loadProductById != null:
-return loadProductById(_that);case AddProductEvent() when addProduct != null:
+return loadProductById(_that);case LoadMoreProductsEvent() when loadMoreProducts != null:
+return loadMoreProducts(_that);case AddProductEvent() when addProduct != null:
 return addProduct(_that);case UpdateProductEvent() when updateProduct != null:
 return updateProduct(_that);case DeleteProductEvent() when deleteProduct != null:
 return deleteProduct(_that);case ResetProductsEvent() when reset != null:
 return reset(_that);case SearchProductsEvent() when searchProducts != null:
-return searchProducts(_that);case _:
+return searchProducts(_that);case LoadCategoriesEvent() when loadCategories != null:
+return loadCategories(_that);case FilterByCategoryEvent() when filterByCategory != null:
+return filterByCategory(_that);case _:
   return orElse();
 
 }
@@ -89,17 +92,20 @@ return searchProducts(_that);case _:
 /// }
 /// ```
 
-@optionalTypeArgs TResult map<TResult extends Object?>({required TResult Function( LoadProductsEvent value)  loadProducts,required TResult Function( LoadProductByIdEvent value)  loadProductById,required TResult Function( AddProductEvent value)  addProduct,required TResult Function( UpdateProductEvent value)  updateProduct,required TResult Function( DeleteProductEvent value)  deleteProduct,required TResult Function( ResetProductsEvent value)  reset,required TResult Function( SearchProductsEvent value)  searchProducts,}){
+@optionalTypeArgs TResult map<TResult extends Object?>({required TResult Function( LoadProductsEvent value)  loadProducts,required TResult Function( LoadProductByIdEvent value)  loadProductById,required TResult Function( LoadMoreProductsEvent value)  loadMoreProducts,required TResult Function( AddProductEvent value)  addProduct,required TResult Function( UpdateProductEvent value)  updateProduct,required TResult Function( DeleteProductEvent value)  deleteProduct,required TResult Function( ResetProductsEvent value)  reset,required TResult Function( SearchProductsEvent value)  searchProducts,required TResult Function( LoadCategoriesEvent value)  loadCategories,required TResult Function( FilterByCategoryEvent value)  filterByCategory,}){
 final _that = this;
 switch (_that) {
 case LoadProductsEvent():
 return loadProducts(_that);case LoadProductByIdEvent():
-return loadProductById(_that);case AddProductEvent():
+return loadProductById(_that);case LoadMoreProductsEvent():
+return loadMoreProducts(_that);case AddProductEvent():
 return addProduct(_that);case UpdateProductEvent():
 return updateProduct(_that);case DeleteProductEvent():
 return deleteProduct(_that);case ResetProductsEvent():
 return reset(_that);case SearchProductsEvent():
-return searchProducts(_that);}
+return searchProducts(_that);case LoadCategoriesEvent():
+return loadCategories(_that);case FilterByCategoryEvent():
+return filterByCategory(_that);}
 }
 /// A variant of `map` that fallback to returning `null`.
 ///
@@ -113,17 +119,20 @@ return searchProducts(_that);}
 /// }
 /// ```
 
-@optionalTypeArgs TResult? mapOrNull<TResult extends Object?>({TResult? Function( LoadProductsEvent value)?  loadProducts,TResult? Function( LoadProductByIdEvent value)?  loadProductById,TResult? Function( AddProductEvent value)?  addProduct,TResult? Function( UpdateProductEvent value)?  updateProduct,TResult? Function( DeleteProductEvent value)?  deleteProduct,TResult? Function( ResetProductsEvent value)?  reset,TResult? Function( SearchProductsEvent value)?  searchProducts,}){
+@optionalTypeArgs TResult? mapOrNull<TResult extends Object?>({TResult? Function( LoadProductsEvent value)?  loadProducts,TResult? Function( LoadProductByIdEvent value)?  loadProductById,TResult? Function( LoadMoreProductsEvent value)?  loadMoreProducts,TResult? Function( AddProductEvent value)?  addProduct,TResult? Function( UpdateProductEvent value)?  updateProduct,TResult? Function( DeleteProductEvent value)?  deleteProduct,TResult? Function( ResetProductsEvent value)?  reset,TResult? Function( SearchProductsEvent value)?  searchProducts,TResult? Function( LoadCategoriesEvent value)?  loadCategories,TResult? Function( FilterByCategoryEvent value)?  filterByCategory,}){
 final _that = this;
 switch (_that) {
 case LoadProductsEvent() when loadProducts != null:
 return loadProducts(_that);case LoadProductByIdEvent() when loadProductById != null:
-return loadProductById(_that);case AddProductEvent() when addProduct != null:
+return loadProductById(_that);case LoadMoreProductsEvent() when loadMoreProducts != null:
+return loadMoreProducts(_that);case AddProductEvent() when addProduct != null:
 return addProduct(_that);case UpdateProductEvent() when updateProduct != null:
 return updateProduct(_that);case DeleteProductEvent() when deleteProduct != null:
 return deleteProduct(_that);case ResetProductsEvent() when reset != null:
 return reset(_that);case SearchProductsEvent() when searchProducts != null:
-return searchProducts(_that);case _:
+return searchProducts(_that);case LoadCategoriesEvent() when loadCategories != null:
+return loadCategories(_that);case FilterByCategoryEvent() when filterByCategory != null:
+return filterByCategory(_that);case _:
   return null;
 
 }
@@ -140,16 +149,19 @@ return searchProducts(_that);case _:
 /// }
 /// ```
 
-@optionalTypeArgs TResult maybeWhen<TResult extends Object?>({TResult Function()?  loadProducts,TResult Function( int id)?  loadProductById,TResult Function( Product product)?  addProduct,TResult Function( Product product)?  updateProduct,TResult Function( int id)?  deleteProduct,TResult Function()?  reset,TResult Function( String query)?  searchProducts,required TResult orElse(),}) {final _that = this;
+@optionalTypeArgs TResult maybeWhen<TResult extends Object?>({TResult Function()?  loadProducts,TResult Function( int id)?  loadProductById,TResult Function()?  loadMoreProducts,TResult Function( Product product)?  addProduct,TResult Function( Product product)?  updateProduct,TResult Function( int id)?  deleteProduct,TResult Function()?  reset,TResult Function( String query)?  searchProducts,TResult Function()?  loadCategories,TResult Function( String category)?  filterByCategory,required TResult orElse(),}) {final _that = this;
 switch (_that) {
 case LoadProductsEvent() when loadProducts != null:
 return loadProducts();case LoadProductByIdEvent() when loadProductById != null:
-return loadProductById(_that.id);case AddProductEvent() when addProduct != null:
+return loadProductById(_that.id);case LoadMoreProductsEvent() when loadMoreProducts != null:
+return loadMoreProducts();case AddProductEvent() when addProduct != null:
 return addProduct(_that.product);case UpdateProductEvent() when updateProduct != null:
 return updateProduct(_that.product);case DeleteProductEvent() when deleteProduct != null:
 return deleteProduct(_that.id);case ResetProductsEvent() when reset != null:
 return reset();case SearchProductsEvent() when searchProducts != null:
-return searchProducts(_that.query);case _:
+return searchProducts(_that.query);case LoadCategoriesEvent() when loadCategories != null:
+return loadCategories();case FilterByCategoryEvent() when filterByCategory != null:
+return filterByCategory(_that.category);case _:
   return orElse();
 
 }
@@ -167,16 +179,19 @@ return searchProducts(_that.query);case _:
 /// }
 /// ```
 
-@optionalTypeArgs TResult when<TResult extends Object?>({required TResult Function()  loadProducts,required TResult Function( int id)  loadProductById,required TResult Function( Product product)  addProduct,required TResult Function( Product product)  updateProduct,required TResult Function( int id)  deleteProduct,required TResult Function()  reset,required TResult Function( String query)  searchProducts,}) {final _that = this;
+@optionalTypeArgs TResult when<TResult extends Object?>({required TResult Function()  loadProducts,required TResult Function( int id)  loadProductById,required TResult Function()  loadMoreProducts,required TResult Function( Product product)  addProduct,required TResult Function( Product product)  updateProduct,required TResult Function( int id)  deleteProduct,required TResult Function()  reset,required TResult Function( String query)  searchProducts,required TResult Function()  loadCategories,required TResult Function( String category)  filterByCategory,}) {final _that = this;
 switch (_that) {
 case LoadProductsEvent():
 return loadProducts();case LoadProductByIdEvent():
-return loadProductById(_that.id);case AddProductEvent():
+return loadProductById(_that.id);case LoadMoreProductsEvent():
+return loadMoreProducts();case AddProductEvent():
 return addProduct(_that.product);case UpdateProductEvent():
 return updateProduct(_that.product);case DeleteProductEvent():
 return deleteProduct(_that.id);case ResetProductsEvent():
 return reset();case SearchProductsEvent():
-return searchProducts(_that.query);}
+return searchProducts(_that.query);case LoadCategoriesEvent():
+return loadCategories();case FilterByCategoryEvent():
+return filterByCategory(_that.category);}
 }
 /// A variant of `when` that fallback to returning `null`
 ///
@@ -190,16 +205,19 @@ return searchProducts(_that.query);}
 /// }
 /// ```
 
-@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>({TResult? Function()?  loadProducts,TResult? Function( int id)?  loadProductById,TResult? Function( Product product)?  addProduct,TResult? Function( Product product)?  updateProduct,TResult? Function( int id)?  deleteProduct,TResult? Function()?  reset,TResult? Function( String query)?  searchProducts,}) {final _that = this;
+@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>({TResult? Function()?  loadProducts,TResult? Function( int id)?  loadProductById,TResult? Function()?  loadMoreProducts,TResult? Function( Product product)?  addProduct,TResult? Function( Product product)?  updateProduct,TResult? Function( int id)?  deleteProduct,TResult? Function()?  reset,TResult? Function( String query)?  searchProducts,TResult? Function()?  loadCategories,TResult? Function( String category)?  filterByCategory,}) {final _that = this;
 switch (_that) {
 case LoadProductsEvent() when loadProducts != null:
 return loadProducts();case LoadProductByIdEvent() when loadProductById != null:
-return loadProductById(_that.id);case AddProductEvent() when addProduct != null:
+return loadProductById(_that.id);case LoadMoreProductsEvent() when loadMoreProducts != null:
+return loadMoreProducts();case AddProductEvent() when addProduct != null:
 return addProduct(_that.product);case UpdateProductEvent() when updateProduct != null:
 return updateProduct(_that.product);case DeleteProductEvent() when deleteProduct != null:
 return deleteProduct(_that.id);case ResetProductsEvent() when reset != null:
 return reset();case SearchProductsEvent() when searchProducts != null:
-return searchProducts(_that.query);case _:
+return searchProducts(_that.query);case LoadCategoriesEvent() when loadCategories != null:
+return loadCategories();case FilterByCategoryEvent() when filterByCategory != null:
+return filterByCategory(_that.category);case _:
   return null;
 
 }
@@ -316,6 +334,44 @@ as int,
 
 
 }
+
+/// @nodoc
+
+
+class LoadMoreProductsEvent with DiagnosticableTreeMixin implements ProductEvent {
+  const LoadMoreProductsEvent();
+  
+
+
+
+
+
+@override
+void debugFillProperties(DiagnosticPropertiesBuilder properties) {
+  properties
+    ..add(DiagnosticsProperty('type', 'ProductEvent.loadMoreProducts'))
+    ;
+}
+
+@override
+bool operator ==(Object other) {
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is LoadMoreProductsEvent);
+}
+
+
+@override
+int get hashCode => runtimeType.hashCode;
+
+@override
+String toString({ DiagnosticLevel minLevel = DiagnosticLevel.info }) {
+  return 'ProductEvent.loadMoreProducts()';
+}
+
+
+}
+
+
+
 
 /// @nodoc
 
@@ -662,6 +718,116 @@ as String,
 }
 
 /// @nodoc
+
+
+class LoadCategoriesEvent with DiagnosticableTreeMixin implements ProductEvent {
+  const LoadCategoriesEvent();
+  
+
+
+
+
+
+@override
+void debugFillProperties(DiagnosticPropertiesBuilder properties) {
+  properties
+    ..add(DiagnosticsProperty('type', 'ProductEvent.loadCategories'))
+    ;
+}
+
+@override
+bool operator ==(Object other) {
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is LoadCategoriesEvent);
+}
+
+
+@override
+int get hashCode => runtimeType.hashCode;
+
+@override
+String toString({ DiagnosticLevel minLevel = DiagnosticLevel.info }) {
+  return 'ProductEvent.loadCategories()';
+}
+
+
+}
+
+
+
+
+/// @nodoc
+
+
+class FilterByCategoryEvent with DiagnosticableTreeMixin implements ProductEvent {
+  const FilterByCategoryEvent(this.category);
+  
+
+ final  String category;
+
+/// Create a copy of ProductEvent
+/// with the given fields replaced by the non-null parameter values.
+@JsonKey(includeFromJson: false, includeToJson: false)
+@pragma('vm:prefer-inline')
+$FilterByCategoryEventCopyWith<FilterByCategoryEvent> get copyWith => _$FilterByCategoryEventCopyWithImpl<FilterByCategoryEvent>(this, _$identity);
+
+
+@override
+void debugFillProperties(DiagnosticPropertiesBuilder properties) {
+  properties
+    ..add(DiagnosticsProperty('type', 'ProductEvent.filterByCategory'))
+    ..add(DiagnosticsProperty('category', category));
+}
+
+@override
+bool operator ==(Object other) {
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is FilterByCategoryEvent&&(identical(other.category, category) || other.category == category));
+}
+
+
+@override
+int get hashCode => Object.hash(runtimeType,category);
+
+@override
+String toString({ DiagnosticLevel minLevel = DiagnosticLevel.info }) {
+  return 'ProductEvent.filterByCategory(category: $category)';
+}
+
+
+}
+
+/// @nodoc
+abstract mixin class $FilterByCategoryEventCopyWith<$Res> implements $ProductEventCopyWith<$Res> {
+  factory $FilterByCategoryEventCopyWith(FilterByCategoryEvent value, $Res Function(FilterByCategoryEvent) _then) = _$FilterByCategoryEventCopyWithImpl;
+@useResult
+$Res call({
+ String category
+});
+
+
+
+
+}
+/// @nodoc
+class _$FilterByCategoryEventCopyWithImpl<$Res>
+    implements $FilterByCategoryEventCopyWith<$Res> {
+  _$FilterByCategoryEventCopyWithImpl(this._self, this._then);
+
+  final FilterByCategoryEvent _self;
+  final $Res Function(FilterByCategoryEvent) _then;
+
+/// Create a copy of ProductEvent
+/// with the given fields replaced by the non-null parameter values.
+@pragma('vm:prefer-inline') $Res call({Object? category = null,}) {
+  return _then(FilterByCategoryEvent(
+null == category ? _self.category : category // ignore: cast_nullable_to_non_nullable
+as String,
+  ));
+}
+
+
+}
+
+/// @nodoc
 mixin _$ProductState implements DiagnosticableTreeMixin {
 
 
@@ -711,12 +877,13 @@ extension ProductStatePatterns on ProductState {
 /// }
 /// ```
 
-@optionalTypeArgs TResult maybeMap<TResult extends Object?>({TResult Function( ProductInitial value)?  initial,TResult Function( ProductLoading value)?  loading,TResult Function( ProductsLoaded value)?  productsLoaded,TResult Function( ProductLoaded value)?  productLoaded,TResult Function( ProductAdded value)?  productAdded,TResult Function( ProductUpdated value)?  productUpdated,TResult Function( ProductDeleted value)?  productDeleted,TResult Function( ProductError value)?  error,required TResult orElse(),}){
+@optionalTypeArgs TResult maybeMap<TResult extends Object?>({TResult Function( ProductInitial value)?  initial,TResult Function( ProductLoading value)?  loading,TResult Function( ProductLoadingMore value)?  loadingMore,TResult Function( ProductsLoaded value)?  productsLoaded,TResult Function( ProductLoaded value)?  productLoaded,TResult Function( ProductAdded value)?  productAdded,TResult Function( ProductUpdated value)?  productUpdated,TResult Function( ProductDeleted value)?  productDeleted,TResult Function( ProductError value)?  error,required TResult orElse(),}){
 final _that = this;
 switch (_that) {
 case ProductInitial() when initial != null:
 return initial(_that);case ProductLoading() when loading != null:
-return loading(_that);case ProductsLoaded() when productsLoaded != null:
+return loading(_that);case ProductLoadingMore() when loadingMore != null:
+return loadingMore(_that);case ProductsLoaded() when productsLoaded != null:
 return productsLoaded(_that);case ProductLoaded() when productLoaded != null:
 return productLoaded(_that);case ProductAdded() when productAdded != null:
 return productAdded(_that);case ProductUpdated() when productUpdated != null:
@@ -740,12 +907,13 @@ return error(_that);case _:
 /// }
 /// ```
 
-@optionalTypeArgs TResult map<TResult extends Object?>({required TResult Function( ProductInitial value)  initial,required TResult Function( ProductLoading value)  loading,required TResult Function( ProductsLoaded value)  productsLoaded,required TResult Function( ProductLoaded value)  productLoaded,required TResult Function( ProductAdded value)  productAdded,required TResult Function( ProductUpdated value)  productUpdated,required TResult Function( ProductDeleted value)  productDeleted,required TResult Function( ProductError value)  error,}){
+@optionalTypeArgs TResult map<TResult extends Object?>({required TResult Function( ProductInitial value)  initial,required TResult Function( ProductLoading value)  loading,required TResult Function( ProductLoadingMore value)  loadingMore,required TResult Function( ProductsLoaded value)  productsLoaded,required TResult Function( ProductLoaded value)  productLoaded,required TResult Function( ProductAdded value)  productAdded,required TResult Function( ProductUpdated value)  productUpdated,required TResult Function( ProductDeleted value)  productDeleted,required TResult Function( ProductError value)  error,}){
 final _that = this;
 switch (_that) {
 case ProductInitial():
 return initial(_that);case ProductLoading():
-return loading(_that);case ProductsLoaded():
+return loading(_that);case ProductLoadingMore():
+return loadingMore(_that);case ProductsLoaded():
 return productsLoaded(_that);case ProductLoaded():
 return productLoaded(_that);case ProductAdded():
 return productAdded(_that);case ProductUpdated():
@@ -765,12 +933,13 @@ return error(_that);}
 /// }
 /// ```
 
-@optionalTypeArgs TResult? mapOrNull<TResult extends Object?>({TResult? Function( ProductInitial value)?  initial,TResult? Function( ProductLoading value)?  loading,TResult? Function( ProductsLoaded value)?  productsLoaded,TResult? Function( ProductLoaded value)?  productLoaded,TResult? Function( ProductAdded value)?  productAdded,TResult? Function( ProductUpdated value)?  productUpdated,TResult? Function( ProductDeleted value)?  productDeleted,TResult? Function( ProductError value)?  error,}){
+@optionalTypeArgs TResult? mapOrNull<TResult extends Object?>({TResult? Function( ProductInitial value)?  initial,TResult? Function( ProductLoading value)?  loading,TResult? Function( ProductLoadingMore value)?  loadingMore,TResult? Function( ProductsLoaded value)?  productsLoaded,TResult? Function( ProductLoaded value)?  productLoaded,TResult? Function( ProductAdded value)?  productAdded,TResult? Function( ProductUpdated value)?  productUpdated,TResult? Function( ProductDeleted value)?  productDeleted,TResult? Function( ProductError value)?  error,}){
 final _that = this;
 switch (_that) {
 case ProductInitial() when initial != null:
 return initial(_that);case ProductLoading() when loading != null:
-return loading(_that);case ProductsLoaded() when productsLoaded != null:
+return loading(_that);case ProductLoadingMore() when loadingMore != null:
+return loadingMore(_that);case ProductsLoaded() when productsLoaded != null:
 return productsLoaded(_that);case ProductLoaded() when productLoaded != null:
 return productLoaded(_that);case ProductAdded() when productAdded != null:
 return productAdded(_that);case ProductUpdated() when productUpdated != null:
@@ -793,12 +962,13 @@ return error(_that);case _:
 /// }
 /// ```
 
-@optionalTypeArgs TResult maybeWhen<TResult extends Object?>({TResult Function()?  initial,TResult Function()?  loading,TResult Function( List<Product> products)?  productsLoaded,TResult Function( Product product)?  productLoaded,TResult Function( Product product)?  productAdded,TResult Function( Product product)?  productUpdated,TResult Function( int id)?  productDeleted,TResult Function( String err)?  error,required TResult orElse(),}) {final _that = this;
+@optionalTypeArgs TResult maybeWhen<TResult extends Object?>({TResult Function()?  initial,TResult Function()?  loading,TResult Function()?  loadingMore,TResult Function( List<Product> products,  bool hasMore)?  productsLoaded,TResult Function( Product product)?  productLoaded,TResult Function( Product product)?  productAdded,TResult Function( Product product)?  productUpdated,TResult Function( int id)?  productDeleted,TResult Function( String err)?  error,required TResult orElse(),}) {final _that = this;
 switch (_that) {
 case ProductInitial() when initial != null:
 return initial();case ProductLoading() when loading != null:
-return loading();case ProductsLoaded() when productsLoaded != null:
-return productsLoaded(_that.products);case ProductLoaded() when productLoaded != null:
+return loading();case ProductLoadingMore() when loadingMore != null:
+return loadingMore();case ProductsLoaded() when productsLoaded != null:
+return productsLoaded(_that.products,_that.hasMore);case ProductLoaded() when productLoaded != null:
 return productLoaded(_that.product);case ProductAdded() when productAdded != null:
 return productAdded(_that.product);case ProductUpdated() when productUpdated != null:
 return productUpdated(_that.product);case ProductDeleted() when productDeleted != null:
@@ -821,12 +991,13 @@ return error(_that.err);case _:
 /// }
 /// ```
 
-@optionalTypeArgs TResult when<TResult extends Object?>({required TResult Function()  initial,required TResult Function()  loading,required TResult Function( List<Product> products)  productsLoaded,required TResult Function( Product product)  productLoaded,required TResult Function( Product product)  productAdded,required TResult Function( Product product)  productUpdated,required TResult Function( int id)  productDeleted,required TResult Function( String err)  error,}) {final _that = this;
+@optionalTypeArgs TResult when<TResult extends Object?>({required TResult Function()  initial,required TResult Function()  loading,required TResult Function()  loadingMore,required TResult Function( List<Product> products,  bool hasMore)  productsLoaded,required TResult Function( Product product)  productLoaded,required TResult Function( Product product)  productAdded,required TResult Function( Product product)  productUpdated,required TResult Function( int id)  productDeleted,required TResult Function( String err)  error,}) {final _that = this;
 switch (_that) {
 case ProductInitial():
 return initial();case ProductLoading():
-return loading();case ProductsLoaded():
-return productsLoaded(_that.products);case ProductLoaded():
+return loading();case ProductLoadingMore():
+return loadingMore();case ProductsLoaded():
+return productsLoaded(_that.products,_that.hasMore);case ProductLoaded():
 return productLoaded(_that.product);case ProductAdded():
 return productAdded(_that.product);case ProductUpdated():
 return productUpdated(_that.product);case ProductDeleted():
@@ -845,12 +1016,13 @@ return error(_that.err);}
 /// }
 /// ```
 
-@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>({TResult? Function()?  initial,TResult? Function()?  loading,TResult? Function( List<Product> products)?  productsLoaded,TResult? Function( Product product)?  productLoaded,TResult? Function( Product product)?  productAdded,TResult? Function( Product product)?  productUpdated,TResult? Function( int id)?  productDeleted,TResult? Function( String err)?  error,}) {final _that = this;
+@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>({TResult? Function()?  initial,TResult? Function()?  loading,TResult? Function()?  loadingMore,TResult? Function( List<Product> products,  bool hasMore)?  productsLoaded,TResult? Function( Product product)?  productLoaded,TResult? Function( Product product)?  productAdded,TResult? Function( Product product)?  productUpdated,TResult? Function( int id)?  productDeleted,TResult? Function( String err)?  error,}) {final _that = this;
 switch (_that) {
 case ProductInitial() when initial != null:
 return initial();case ProductLoading() when loading != null:
-return loading();case ProductsLoaded() when productsLoaded != null:
-return productsLoaded(_that.products);case ProductLoaded() when productLoaded != null:
+return loading();case ProductLoadingMore() when loadingMore != null:
+return loadingMore();case ProductsLoaded() when productsLoaded != null:
+return productsLoaded(_that.products,_that.hasMore);case ProductLoaded() when productLoaded != null:
 return productLoaded(_that.product);case ProductAdded() when productAdded != null:
 return productAdded(_that.product);case ProductUpdated() when productUpdated != null:
 return productUpdated(_that.product);case ProductDeleted() when productDeleted != null:
@@ -942,8 +1114,46 @@ String toString({ DiagnosticLevel minLevel = DiagnosticLevel.info }) {
 /// @nodoc
 
 
+class ProductLoadingMore with DiagnosticableTreeMixin implements ProductState {
+  const ProductLoadingMore();
+  
+
+
+
+
+
+@override
+void debugFillProperties(DiagnosticPropertiesBuilder properties) {
+  properties
+    ..add(DiagnosticsProperty('type', 'ProductState.loadingMore'))
+    ;
+}
+
+@override
+bool operator ==(Object other) {
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is ProductLoadingMore);
+}
+
+
+@override
+int get hashCode => runtimeType.hashCode;
+
+@override
+String toString({ DiagnosticLevel minLevel = DiagnosticLevel.info }) {
+  return 'ProductState.loadingMore()';
+}
+
+
+}
+
+
+
+
+/// @nodoc
+
+
 class ProductsLoaded with DiagnosticableTreeMixin implements ProductState {
-  const ProductsLoaded(final  List<Product> products): _products = products;
+  const ProductsLoaded(final  List<Product> products, {this.hasMore = true}): _products = products;
   
 
  final  List<Product> _products;
@@ -953,6 +1163,7 @@ class ProductsLoaded with DiagnosticableTreeMixin implements ProductState {
   return EqualUnmodifiableListView(_products);
 }
 
+@JsonKey() final  bool hasMore;
 
 /// Create a copy of ProductState
 /// with the given fields replaced by the non-null parameter values.
@@ -965,21 +1176,21 @@ $ProductsLoadedCopyWith<ProductsLoaded> get copyWith => _$ProductsLoadedCopyWith
 void debugFillProperties(DiagnosticPropertiesBuilder properties) {
   properties
     ..add(DiagnosticsProperty('type', 'ProductState.productsLoaded'))
-    ..add(DiagnosticsProperty('products', products));
+    ..add(DiagnosticsProperty('products', products))..add(DiagnosticsProperty('hasMore', hasMore));
 }
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is ProductsLoaded&&const DeepCollectionEquality().equals(other._products, _products));
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is ProductsLoaded&&const DeepCollectionEquality().equals(other._products, _products)&&(identical(other.hasMore, hasMore) || other.hasMore == hasMore));
 }
 
 
 @override
-int get hashCode => Object.hash(runtimeType,const DeepCollectionEquality().hash(_products));
+int get hashCode => Object.hash(runtimeType,const DeepCollectionEquality().hash(_products),hasMore);
 
 @override
 String toString({ DiagnosticLevel minLevel = DiagnosticLevel.info }) {
-  return 'ProductState.productsLoaded(products: $products)';
+  return 'ProductState.productsLoaded(products: $products, hasMore: $hasMore)';
 }
 
 
@@ -990,7 +1201,7 @@ abstract mixin class $ProductsLoadedCopyWith<$Res> implements $ProductStateCopyW
   factory $ProductsLoadedCopyWith(ProductsLoaded value, $Res Function(ProductsLoaded) _then) = _$ProductsLoadedCopyWithImpl;
 @useResult
 $Res call({
- List<Product> products
+ List<Product> products, bool hasMore
 });
 
 
@@ -1007,10 +1218,11 @@ class _$ProductsLoadedCopyWithImpl<$Res>
 
 /// Create a copy of ProductState
 /// with the given fields replaced by the non-null parameter values.
-@pragma('vm:prefer-inline') $Res call({Object? products = null,}) {
+@pragma('vm:prefer-inline') $Res call({Object? products = null,Object? hasMore = null,}) {
   return _then(ProductsLoaded(
 null == products ? _self._products : products // ignore: cast_nullable_to_non_nullable
-as List<Product>,
+as List<Product>,hasMore: null == hasMore ? _self.hasMore : hasMore // ignore: cast_nullable_to_non_nullable
+as bool,
   ));
 }
 

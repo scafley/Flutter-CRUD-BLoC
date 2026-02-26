@@ -30,9 +30,13 @@ class _ProductsViewState extends State<_ProductsView> {
   Timer? _debounce;
   bool _isSearching = false;
 
+  List<String> _categories = [];
+  String _selectedCategory = 'All';
+
   @override
   void initState() {
     super.initState();
+    _loadCategories();
   }
 
   @override
@@ -55,9 +59,22 @@ class _ProductsViewState extends State<_ProductsView> {
       _isSearching = !_isSearching;
       if (!_isSearching) {
         _searchController.clear();
+        _selectedCategory = 'All';
         context.read<ProductBloc>().add(const ProductEvent.loadProducts());
       }
     });
+  }
+
+  Future<void> _loadCategories() async {
+    try {
+      final repository = context.read<ProductBloc>().productRepository;
+      final categories = await repository.getCategories();
+      setState(() {
+        _categories = ['All', ...categories];
+      });
+    } catch (e) {
+      print('Failed to load categories: $e');
+    }
   }
 
   @override
@@ -78,6 +95,41 @@ class _ProductsViewState extends State<_ProductsView> {
               )
             : const Text('Products'),
         actions: [
+          if (!_isSearching && _categories.isNotEmpty)
+            Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 2),
+              child: DropdownButton<String>(
+                value: _selectedCategory,
+                dropdownColor: Colors.white,
+                style: const TextStyle(color: Colors.black),
+                underline: Container(),
+                icon: const Icon(Icons.filter_list, color: Colors.black),
+                items: _categories.map((category) {
+                  return DropdownMenuItem(
+                    value: category,
+                    child: Text(category, style: const TextStyle(fontSize: 14)),
+                  );
+                }).toList(),
+                onChanged: (value) {
+                  if (value != null) {
+                    setState(() {
+                      _selectedCategory = value;
+                    });
+
+                    if (value == 'All') {
+                      context.read<ProductBloc>().add(
+                        const ProductEvent.loadProducts(),
+                      );
+                    } else {
+                      context.read<ProductBloc>().add(
+                        ProductEvent.filterByCategory(value),
+                      );
+                    }
+                  }
+                },
+              ),
+            ),
+
           if (_isSearching)
             IconButton(
               icon: const Icon(Icons.clear),
@@ -88,6 +140,7 @@ class _ProductsViewState extends State<_ProductsView> {
                 );
               },
             ),
+
           IconButton(
             icon: Icon(_isSearching ? Icons.search_off : Icons.search),
             onPressed: _toggleSearch,
@@ -104,18 +157,22 @@ class _ProductsViewState extends State<_ProductsView> {
           child: BlocBuilder<ProductBloc, ProductState>(
             builder: (context, state) {
               return state.when(
-                initial: () => Center(child: Text("Loading")),
-                loading: () => Center(child: CircularProgressIndicator()),
+                initial: () => const Center(child: Text("Loading")),
+                loading: () => const Center(child: CircularProgressIndicator()),
+                loadingMore: () {
+                  // Show products with loading indicator
+                  return const Center(child: CircularProgressIndicator());
+                },
                 productDeleted: (_) => const SizedBox.shrink(),
-                productUpdated: (_) => SizedBox(),
-                productsLoaded: (products) {
+                productUpdated: (_) => const SizedBox(),
+                productsLoaded: (products, hasMore) {
                   if (products.isEmpty) {
                     return Center(
                       child: Column(
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: [
-                          Text("No products found"),
-                          SizedBox(height: 16),
+                          const Text("No products found"),
+                          const SizedBox(height: 16),
                           ElevatedButton.icon(
                             onPressed: () {
                               context.read<ProductBloc>().add(
@@ -129,102 +186,141 @@ class _ProductsViewState extends State<_ProductsView> {
                       ),
                     );
                   }
+                  //final currentPage = (products.length / 10).ceil();
+
                   return RefreshIndicator(
                     onRefresh: () async {
                       context.read<ProductBloc>().add(
-                        ProductEvent.loadProducts(),
+                        const ProductEvent.loadProducts(),
                       );
                       await Future.delayed(const Duration(milliseconds: 500));
                     },
-                    child: GridView.builder(
-                      padding: const EdgeInsets.all(16),
-                      gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-                        crossAxisCount: 2,
-                        crossAxisSpacing: 8,
-                        mainAxisSpacing: 8,
-                      ),
-                      itemCount: products.length,
-                      itemBuilder: (context, index) {
-                        final product = products[index];
-                        return Card(
-                          shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(12),
-                          ),
-                          child: InkWell(
-                            onTap: () {
-                              context.push('/products/${product.id}');
-                            },
-                            child: Column(
-                              mainAxisAlignment: MainAxisAlignment.center,
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              children: [
-                                Expanded(
-                                  flex: 4,
-                                  child: Center(
-                                    child: CachedNetworkImage(
-                                      imageUrl: product.thumbnail,
-                                      fit: BoxFit.contain,
-                                      errorWidget: (context, url, error) =>
-                                          Container(
-                                            color: Colors.grey[200],
-                                            child: const Icon(
-                                              Icons.error,
-                                              size: 32,
-                                              color: Colors.black,
-                                            ),
-                                          ),
-                                      placeholder: (context, url) => Container(
-                                        color: Colors.grey[200],
-                                        child: const Center(
-                                          child: CircularProgressIndicator(),
+                    child: Column(
+                      children: [
+                        // Text("Page ${currentPage}"),
+                        Expanded(
+                          child: GridView.builder(
+                            padding: const EdgeInsets.all(16),
+                            gridDelegate:
+                                const SliverGridDelegateWithFixedCrossAxisCount(
+                                  crossAxisCount: 2,
+                                  crossAxisSpacing: 8,
+                                  mainAxisSpacing: 8,
+                                ),
+                            itemCount: products.length + (hasMore ? 1 : 0),
+
+                            itemBuilder: (context, index) {
+                              if (index == products.length) {
+                                return Center(
+                                  child: Padding(
+                                    padding: const EdgeInsets.all(16),
+                                    child: ElevatedButton.icon(
+                                      onPressed: () {
+                                        context.read<ProductBloc>().add(
+                                          const ProductEvent.loadMoreProducts(),
+                                        );
+                                      },
+                                      icon: const Icon(Icons.add),
+                                      label: const Text('Load More'),
+                                      style: ElevatedButton.styleFrom(
+                                        padding: const EdgeInsets.symmetric(
+                                          horizontal: 24,
+                                          vertical: 12,
                                         ),
                                       ),
                                     ),
                                   ),
+                                );
+                              }
+
+                              final product = products[index];
+                              return Card(
+                                shape: RoundedRectangleBorder(
+                                  borderRadius: BorderRadius.circular(12),
                                 ),
-                                Padding(
-                                  padding: const EdgeInsets.all(8.0),
+                                child: InkWell(
+                                  onTap: () {
+                                    context.push('/products/${product.id}');
+                                  },
                                   child: Column(
-                                    mainAxisAlignment:
-                                        MainAxisAlignment.spaceBetween,
+                                    mainAxisAlignment: MainAxisAlignment.center,
                                     crossAxisAlignment:
                                         CrossAxisAlignment.start,
                                     children: [
-                                      Text(
-                                        product.title,
-                                        style: TextStyle(
-                                          fontSize: 14,
-                                          fontWeight: FontWeight.w600,
+                                      Expanded(
+                                        flex: 4,
+                                        child: Center(
+                                          child: CachedNetworkImage(
+                                            imageUrl: product.thumbnail,
+                                            fit: BoxFit.contain,
+                                            errorWidget:
+                                                (context, url, error) =>
+                                                    Container(
+                                                      color: Colors.grey[200],
+                                                      child: const Icon(
+                                                        Icons.error,
+                                                        size: 32,
+                                                        color: Colors.black,
+                                                      ),
+                                                    ),
+                                            placeholder: (context, url) =>
+                                                Container(
+                                                  color: Colors.grey[200],
+                                                  child: const Center(
+                                                    child:
+                                                        CircularProgressIndicator(),
+                                                  ),
+                                                ),
+                                          ),
                                         ),
                                       ),
-                                      Text(
-                                        "Price:",
-                                        style: TextStyle(fontSize: 10),
-                                      ),
-                                      Text(
-                                        "${product.price.toStringAsFixed(2)} zł",
-                                        style: TextStyle(
-                                          color: Colors.red[900],
+                                      Padding(
+                                        padding: const EdgeInsets.all(8.0),
+                                        child: Column(
+                                          mainAxisAlignment:
+                                              MainAxisAlignment.spaceBetween,
+                                          crossAxisAlignment:
+                                              CrossAxisAlignment.start,
+                                          children: [
+                                            Text(
+                                              product.title,
+                                              style: const TextStyle(
+                                                fontSize: 14,
+                                                fontWeight: FontWeight.w600,
+                                              ),
+                                            ),
+                                            const Text(
+                                              "Price:",
+                                              style: TextStyle(fontSize: 10),
+                                            ),
+                                            Text(
+                                              "${product.price.toStringAsFixed(2)} zł",
+                                              style: TextStyle(
+                                                color: Colors.red[900],
+                                              ),
+                                            ),
+                                          ],
                                         ),
                                       ),
                                     ],
                                   ),
                                 ),
-                              ],
-                            ),
+                              );
+                            },
                           ),
-                        );
-                      },
+                        ),
+                      ],
                     ),
                   );
                 },
-                productAdded: (product) => SizedBox(),
-                productLoaded: (product) => SizedBox(),
+                productAdded: (product) => const SizedBox(),
+                productLoaded: (product) => const SizedBox(),
                 error: (msg) => Center(
                   child: Column(
+                    mainAxisAlignment: MainAxisAlignment.center,
                     children: [
                       Text(msg),
-                      SizedBox(height: 10),
+                      const SizedBox(height: 10),
                       ElevatedButton.icon(
                         onPressed: () {
                           context.read<ProductBloc>().add(

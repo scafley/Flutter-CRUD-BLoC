@@ -90,7 +90,8 @@ class _ProductDetailViewState extends State<_ProductDetailView> {
                   loading: () =>
                       const Center(child: CircularProgressIndicator()),
                   productDeleted: (_) => const SizedBox.shrink(),
-                  productsLoaded: (_) => const SizedBox(),
+                  productsLoaded: (_, _) => const SizedBox(),
+
                   productLoaded: (product) {
                     WidgetsBinding.instance.addPostFrameCallback((_) {
                       if (mounted) {
@@ -225,6 +226,9 @@ class _ProductDetailViewState extends State<_ProductDetailView> {
                   ),
                   productAdded: (_) => SizedBox(),
                   productUpdated: (_) => SizedBox(),
+                  loadingMore: () {
+                    return CircularProgressIndicator();
+                  },
                 );
               },
             ),

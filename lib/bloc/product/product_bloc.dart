@@ -12,6 +12,11 @@ part 'product_bloc.freezed.dart';
 class ProductBloc extends Bloc<ProductEvent, ProductState> {
   final ProductRepository productRepository;
 
+  // pagination
+  int _currentPage = 0;
+  List<Product> _allProducts = [];
+  static const int _pageSize = 10;
+
   ProductBloc({required this.productRepository}) : super(ProductInitial()) {
     on<LoadProductsEvent>(_onLoadProducts);
     on<LoadProductByIdEvent>(_onLoadProductById);
@@ -20,6 +25,8 @@ class ProductBloc extends Bloc<ProductEvent, ProductState> {
     on<DeleteProductEvent>(_onDeleteProduct);
     on<ResetProductsEvent>(_onReset);
     on<SearchProductsEvent>(_onSearchProducts);
+    on<FilterByCategoryEvent>(_onFilterByCategory);
+    on<LoadMoreProductsEvent>(_onLoadMoreProducts);
   }
 
   Future<void> _onLoadProducts(
@@ -28,8 +35,51 @@ class ProductBloc extends Bloc<ProductEvent, ProductState> {
   ) async {
     emit(const ProductState.loading());
     try {
-      final products = await productRepository.getProducts();
-      emit(ProductState.productsLoaded(products));
+      _currentPage = 0;
+      _allProducts = [];
+      final products = await productRepository.getProducts(
+        limit: _pageSize,
+        skip: _currentPage * _pageSize,
+      );
+
+      _allProducts = products;
+      emit(
+        ProductState.productsLoaded(
+          _allProducts,
+          hasMore: products.length == _pageSize,
+        ),
+      );
+    } catch (err) {
+      emit(ProductState.error(err.toString()));
+    }
+  }
+
+  Future<void> _onLoadMoreProducts(
+    LoadMoreProductsEvent event,
+    Emitter<ProductState> emit,
+  ) async {
+    final currentState = state;
+    if (currentState is ProductLoadingMore) return;
+    if (currentState is ProductsLoaded && !currentState.hasMore) return;
+
+    emit(const ProductState.loadingMore());
+
+    try {
+      _currentPage++;
+
+      final newProducts = await productRepository.getProducts(
+        limit: _pageSize,
+        skip: _currentPage * _pageSize,
+      );
+
+      _allProducts.addAll(newProducts);
+
+      emit(
+        ProductState.productsLoaded(
+          List.from(_allProducts),
+          hasMore: newProducts.length == _pageSize,
+        ),
+      );
     } catch (err) {
       emit(ProductState.error(err.toString()));
     }
@@ -98,7 +148,6 @@ class ProductBloc extends Bloc<ProductEvent, ProductState> {
     ResetProductsEvent event,
     Emitter<ProductState> emit,
   ) async {
-    print("reset");
     emit(const ProductState.initial());
   }
 
@@ -111,8 +160,32 @@ class ProductBloc extends Bloc<ProductEvent, ProductState> {
     }
     emit(ProductState.loading());
     try {
+      _currentPage = 0;
+      _allProducts = [];
       final products = await productRepository.searchProducts(event.query);
-      emit(ProductState.productsLoaded(products));
+      emit(ProductState.productsLoaded(products, hasMore: false));
+    } catch (err) {
+      emit(ProductState.error(err.toString()));
+    }
+  }
+
+  Future<void> _onFilterByCategory(
+    FilterByCategoryEvent event,
+    Emitter<ProductState> emit,
+  ) async {
+    if (event.category.isEmpty || event.category.toLowerCase() == 'all') {
+      add(ProductEvent.loadProducts());
+      return;
+    }
+    emit(const ProductState.loading());
+
+    try {
+      _currentPage = 0;
+      _allProducts = [];
+      final products = await productRepository.getProductsByCategory(
+        event.category,
+      );
+      emit(ProductState.productsLoaded(products, hasMore: false));
     } catch (err) {
       emit(ProductState.error(err.toString()));
     }

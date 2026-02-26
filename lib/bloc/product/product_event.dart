@@ -6,6 +6,8 @@ sealed class ProductEvent with _$ProductEvent {
 
   const factory ProductEvent.loadProductById(int id) = LoadProductByIdEvent;
 
+  const factory ProductEvent.loadMoreProducts() = LoadMoreProductsEvent;
+
   const factory ProductEvent.addProduct(Product product) = AddProductEvent;
 
   const factory ProductEvent.updateProduct(Product product) =
@@ -16,4 +18,7 @@ sealed class ProductEvent with _$ProductEvent {
   const factory ProductEvent.reset() = ResetProductsEvent;
 
   const factory ProductEvent.searchProducts(String query) = SearchProductsEvent;
+  const factory ProductEvent.loadCategories() = LoadCategoriesEvent;
+  const factory ProductEvent.filterByCategory(String category) =
+      FilterByCategoryEvent;
 }

@@ -39,12 +39,12 @@ class ApiService {
   }
 
   //http methods
-  Future<Map<String, dynamic>> get(
+  Future<dynamic> get(
     String path, {
     Map<String, dynamic>? queryParameters,
   }) async {
     final res = await dio.get(path, queryParameters: queryParameters);
-    return res.data as Map<String, dynamic>;
+    return res.data as dynamic;
   }
 
   Future<Map<String, dynamic>> post(

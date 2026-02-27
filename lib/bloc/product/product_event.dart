@@ -18,7 +18,9 @@ sealed class ProductEvent with _$ProductEvent {
   const factory ProductEvent.reset() = ResetProductsEvent;
 
   const factory ProductEvent.searchProducts(String query) = SearchProductsEvent;
+
   const factory ProductEvent.loadCategories() = LoadCategoriesEvent;
+
   const factory ProductEvent.filterByCategory(String category) =
       FilterByCategoryEvent;
 }

@@ -1,6 +1,5 @@
 import 'package:flutter/foundation.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:flutter_crud/core/di/instances.dart';
 import 'package:flutter_crud/data/models/product.dart';
 import 'package:flutter_crud/data/repositories/product_repository.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';

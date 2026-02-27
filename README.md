@@ -12,6 +12,9 @@
 - Delete products with confirmation dialog
 - Pull-to-refresh functionality
 - BLoC state reset on logout
+- Product search with simple debounce
+- Category filtering with dropdown
+- Pagination with "Load More" button
 
 ## Tech Stack
 
@@ -31,7 +34,7 @@
 
 ## Note
 
-This app uses https://dummyjson.com as a mock API for demonstration purposes. Data changes (add, edit, delete) won't persist on the server but demonstrate full CRUD functionality with proper HTTP methods (and http 200 responses).
+This app uses https://dummyjson.com as a mock API for demonstration purposes. Data changes (add, edit, delete) won't persist on the server but demonstrate full CRUD functionality with proper HTTP methods (and HTTP 200 responses).
 
 ##  Author
 

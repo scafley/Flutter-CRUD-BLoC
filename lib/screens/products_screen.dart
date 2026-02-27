@@ -5,7 +5,6 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_crud/bloc/product/product_bloc.dart';
-import 'package:flutter_crud/data/models/product.dart';
 import 'package:go_router/go_router.dart';
 
 class ProductsScreen extends StatelessWidget {
@@ -195,24 +194,104 @@ class _ProductsViewState extends State<_ProductsView> {
                       );
                       await Future.delayed(const Duration(milliseconds: 500));
                     },
-                    child: Column(
-                      children: [
-                        // Text("Page ${currentPage}"),
-                        Expanded(
-                          child: GridView.builder(
-                            padding: const EdgeInsets.all(16),
+                    child: CustomScrollView(
+                      slivers: [
+                        SliverPadding(
+                          padding: EdgeInsets.all(16),
+                          sliver: SliverGrid(
+                            delegate: SliverChildBuilderDelegate(
+                              childCount: products.length,
+                              (context, index) {
+                                final product = products[index];
+                                return Card(
+                                  shape: RoundedRectangleBorder(
+                                    borderRadius: BorderRadius.circular(12),
+                                  ),
+                                  child: InkWell(
+                                    onTap: () {
+                                      context.push('/products/${product.id}');
+                                    },
+                                    child: Column(
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.center,
+                                      crossAxisAlignment:
+                                          CrossAxisAlignment.start,
+                                      children: [
+                                        Expanded(
+                                          flex: 4,
+                                          child: Center(
+                                            child: CachedNetworkImage(
+                                              imageUrl: product.thumbnail,
+                                              fit: BoxFit.contain,
+                                              errorWidget:
+                                                  (context, url, error) =>
+                                                      Container(
+                                                        color: Colors.grey[200],
+                                                        child: const Icon(
+                                                          Icons.error,
+                                                          size: 32,
+                                                          color: Colors.black,
+                                                        ),
+                                                      ),
+                                              placeholder: (context, url) =>
+                                                  Container(
+                                                    color: Colors.grey[200],
+                                                    child: const Center(
+                                                      child:
+                                                          CircularProgressIndicator(),
+                                                    ),
+                                                  ),
+                                            ),
+                                          ),
+                                        ),
+                                        Padding(
+                                          padding: const EdgeInsets.all(8.0),
+                                          child: Column(
+                                            mainAxisAlignment:
+                                                MainAxisAlignment.spaceBetween,
+                                            crossAxisAlignment:
+                                                CrossAxisAlignment.start,
+                                            children: [
+                                              Text(
+                                                product.title,
+                                                style: const TextStyle(
+                                                  fontSize: 14,
+                                                  fontWeight: FontWeight.w600,
+                                                ),
+                                              ),
+                                              const Text(
+                                                "Price:",
+                                                style: TextStyle(fontSize: 10),
+                                              ),
+                                              Text(
+                                                "${product.price.toStringAsFixed(2)} zł",
+                                                style: TextStyle(
+                                                  color: Colors.red[900],
+                                                ),
+                                              ),
+                                            ],
+                                          ),
+                                        ),
+                                      ],
+                                    ),
+                                  ),
+                                );
+                              },
+                            ),
                             gridDelegate:
-                                const SliverGridDelegateWithFixedCrossAxisCount(
+                                SliverGridDelegateWithFixedCrossAxisCount(
                                   crossAxisCount: 2,
                                   crossAxisSpacing: 8,
                                   mainAxisSpacing: 8,
                                 ),
-                            itemCount: products.length + (hasMore ? 1 : 0),
-
-                            itemBuilder: (context, index) {
-                              if (index == products.length) {
-                                return Center(
-                                  child: Padding(
+                          ),
+                        ),
+                        if (hasMore)
+                          SliverToBoxAdapter(
+                            child: Center(
+                              child: Column(
+                                children: [
+                                  Padding(
                                     padding: const EdgeInsets.all(16),
                                     child: ElevatedButton.icon(
                                       onPressed: () {
@@ -224,91 +303,17 @@ class _ProductsViewState extends State<_ProductsView> {
                                       label: const Text('Load More'),
                                       style: ElevatedButton.styleFrom(
                                         padding: const EdgeInsets.symmetric(
-                                          horizontal: 24,
-                                          vertical: 12,
+                                          horizontal: 32,
+                                          vertical: 16,
                                         ),
                                       ),
                                     ),
                                   ),
-                                );
-                              }
-
-                              final product = products[index];
-                              return Card(
-                                shape: RoundedRectangleBorder(
-                                  borderRadius: BorderRadius.circular(12),
-                                ),
-                                child: InkWell(
-                                  onTap: () {
-                                    context.push('/products/${product.id}');
-                                  },
-                                  child: Column(
-                                    mainAxisAlignment: MainAxisAlignment.center,
-                                    crossAxisAlignment:
-                                        CrossAxisAlignment.start,
-                                    children: [
-                                      Expanded(
-                                        flex: 4,
-                                        child: Center(
-                                          child: CachedNetworkImage(
-                                            imageUrl: product.thumbnail,
-                                            fit: BoxFit.contain,
-                                            errorWidget:
-                                                (context, url, error) =>
-                                                    Container(
-                                                      color: Colors.grey[200],
-                                                      child: const Icon(
-                                                        Icons.error,
-                                                        size: 32,
-                                                        color: Colors.black,
-                                                      ),
-                                                    ),
-                                            placeholder: (context, url) =>
-                                                Container(
-                                                  color: Colors.grey[200],
-                                                  child: const Center(
-                                                    child:
-                                                        CircularProgressIndicator(),
-                                                  ),
-                                                ),
-                                          ),
-                                        ),
-                                      ),
-                                      Padding(
-                                        padding: const EdgeInsets.all(8.0),
-                                        child: Column(
-                                          mainAxisAlignment:
-                                              MainAxisAlignment.spaceBetween,
-                                          crossAxisAlignment:
-                                              CrossAxisAlignment.start,
-                                          children: [
-                                            Text(
-                                              product.title,
-                                              style: const TextStyle(
-                                                fontSize: 14,
-                                                fontWeight: FontWeight.w600,
-                                              ),
-                                            ),
-                                            const Text(
-                                              "Price:",
-                                              style: TextStyle(fontSize: 10),
-                                            ),
-                                            Text(
-                                              "${product.price.toStringAsFixed(2)} zł",
-                                              style: TextStyle(
-                                                color: Colors.red[900],
-                                              ),
-                                            ),
-                                          ],
-                                        ),
-                                      ),
-                                    ],
-                                  ),
-                                ),
-                              );
-                            },
+                                  SizedBox(height: 16),
+                                ],
+                              ),
+                            ),
                           ),
-                        ),
                       ],
                     ),
                   );
